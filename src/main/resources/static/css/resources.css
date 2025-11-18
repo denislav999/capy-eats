@@ -1,0 +1,104 @@
+.resources-hero {
+    padding: 120px 0 80px;
+    background: linear-gradient(135deg, #fff5f0 0%, #ffffff 100%);
+}
+
+.resources-content {
+    padding: 80px 0;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    margin-bottom: 80px;
+}
+
+.resource-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 32px;
+    transition: all 0.3s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+}
+
+.resource-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.resource-card h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #1a1a1a;
+}
+
+.resource-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.resource-link {
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.resource-link:hover {
+    color: var(--primary-dark);
+}
+
+.documentation-section {
+    background: #fafafa;
+    border-radius: 16px;
+    padding: 48px;
+}
+
+.documentation-section .section-heading {
+    margin-bottom: 32px;
+}
+
+.doc-list {
+    display: grid;
+    gap: 24px;
+}
+
+.doc-item {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    border-left: 4px solid var(--primary);
+}
+
+.doc-item h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+}
+
+.doc-item p {
+    color: #666;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .documentation-section {
+        padding: 32px 24px;
+    }
+}
