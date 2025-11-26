@@ -8,20 +8,7 @@
     <link rel="stylesheet" href="/css/legal-shared.css">
 </head>
 <body>
-<header class="header">
-    <div class="container">
-        <div class="nav">
-            <div class="nav-left">
-                <a href="/" class="logo">capyEats</a>
-                <div class="auth-buttons">
-                    <a class="btn btn-text" href="/login">Log in</a>
-                    <a class="btn btn-text" href="/signup">Sign up</a>
-                    <a class="btn btn-primary" href="/signup-kitchen">Sign up kitchen</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+<div th:replace="fragments/fragments :: header"></div>
 
 <main>
     <section class="legal-hero">
@@ -96,39 +83,6 @@
         </div>
     </section>
 </main>
-
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <div class="logo">capyEats</div>
-                <p class="footer-text">Food delivery from ghost kitchens</p>
-            </div>
-            <div class="footer-links">
-                <div class="footer-column">
-                    <h4>Company</h4>
-                    <a href="/about">About</a>
-                    <a href="/careers">Careers</a>
-                    <a href="/press">Press</a>
-                </div>
-                <div class="footer-column">
-                    <h4>For Kitchens</h4>
-                    <a href="/partner">Partner</a>
-                    <a href="/resources">Resources</a>
-                    <a href="/support">Support</a>
-                </div>
-                <div class="footer-column">
-                    <h4>Legal</h4>
-                    <a href="/privacy">Privacy</a>
-                    <a href="/terms">Terms</a>
-                    <a href="/cookies">Cookies</a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 capyEats. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
+<div th:replace="fragments/fragments :: footer"></div>
 </body>
 </html>
