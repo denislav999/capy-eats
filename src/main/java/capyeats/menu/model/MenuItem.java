@@ -1,23 +1,19 @@
 package capyeats.menu.model;
 
+import capyeats.common.BaseEntity;
 import capyeats.kitchen.model.Kitchen;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "manu_items")
-public class MenuItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class MenuItem extends BaseEntity {
 
     @Column(nullable = false)
     private String name;

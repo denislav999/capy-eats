@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Signup - capyEats</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="nav">
+            <div class="nav-left">
+                <a href="/" class="logo">capyEats</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="signup-main">
+    <div class="signup-container">
+        <div class="signup-box">
+            <h1 class="signup-title">Become a kitchen partner</h1>
+            <p class="signup-subtitle">Submit your application to join capyEats</p>
+
+            <form class="signup-form">
+                <div class="form-group">
+                    <label for="kitchen-name" class="form-label">Kitchen Name</label>
+                    <input
+                            type="text"
+                            id="kitchen-name"
+                            name="username"
+                            class="form-input"
+                            placeholder="Enter your kitchen name"
+                            required
+                    >
+                    <!-- Added validation warning message -->
+                    <p class="validation-warning" id="kitchen-name-warning">Kitchen name validation message</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="kitchen-email" class="form-label">Business Email</label>
+                    <input
+                            type="email"
+                            id="kitchen-email"
+                            name="email"
+                            class="form-input"
+                            placeholder="Enter your business email"
+                            required
+                    >
+                    <!-- Added validation warning message -->
+                    <p class="validation-warning" id="kitchen-email-warning">Email validation message</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="kitchen-password" class="form-label">Password</label>
+                    <input
+                            type="password"
+                            id="kitchen-password"
+                            name="password"
+                            class="form-input"
+                            placeholder="Create a password"
+                            required
+                    >
+                    <!-- Added validation warning message -->
+                    <p class="validation-warning" id="kitchen-password-warning">Password validation message</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="kitchen-documents" class="form-label">Business Documents</label>
+                    <div class="file-upload">
+                        <input
+                                type="file"
+                                id="kitchen-documents"
+                                name="documents"
+                                class="file-input"
+                                multiple
+                                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                required
+                        >
+                        <label for="kitchen-documents" class="file-label">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 4.167v11.666M4.167 10h11.666" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>Upload documents for verification</span>
+                        </label>
+                    </div>
+                    <p class="file-hint">Required: Business license, food handler certificate, insurance</p>
+                    <!-- Added validation warning message for documents -->
+                    <p class="validation-warning" id="documents-warning">Document validation message</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Request</button>
+            </form>
+
+            <p class="login-text">
+                Already have an account? <a href="/login" class="login-link">Log in</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+<script>
+    const fileInput = document.getElementById('kitchen-documents');
+    const fileLabel = document.querySelector('.file-label span');
+
+    fileInput.addEventListener('change', (e) => {
+        const files = e.target.files;
+        if (files.length > 0) {
+            fileLabel.textContent = files.length === 1 ? files[0].name : `${files.length} files selected`;
+        } else {
+            fileLabel.textContent = 'Upload documents for verification';
+        }
+    });
+</script>
+</body>
+</html>

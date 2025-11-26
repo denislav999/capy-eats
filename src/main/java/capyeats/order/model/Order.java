@@ -1,19 +1,22 @@
 package capyeats.order.model;
 
+import capyeats.common.BaseEntity;
 import capyeats.kitchen.model.Kitchen;
 import capyeats.user.model.User;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Set;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Order extends BaseEntity {
 
     @ManyToOne
     private User user;
@@ -32,6 +35,4 @@ public class Order {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
-    @Column(nullable = false, name = "creeated_ad")
-    private LocalDateTime createdAt;
 }

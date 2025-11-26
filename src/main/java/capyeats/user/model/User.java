@@ -1,25 +1,22 @@
 package capyeats.user.model;
 
+import capyeats.common.BaseEntity;
 import capyeats.order.model.Order;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+public class User extends BaseEntity {
+
     @Column(unique = true, nullable = false)
     private String username;
     @Column(unique = true, nullable = false)
@@ -31,9 +28,10 @@ public class User {
     private UserRole role;
     @Column
     private String address;
-    @Column(nullable = false,name = "phone_number")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-    private Set<Order> orders;
+    @OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+    @OrderBy("createdAt")
+    private Set<Order> orders = new HashSet<>();
 }

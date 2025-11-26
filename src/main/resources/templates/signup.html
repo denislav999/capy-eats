@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up - capyEats</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="nav">
+            <div class="nav-left">
+                <a href="/" class="logo">capyEats</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="signup-main">
+    <div class="signup-container">
+        <div class="signup-box">
+            <h1 class="signup-title">Join capyEats</h1>
+            <p class="signup-subtitle">Create your account and start ordering</p>
+
+            <form class="signup-form" th:action="@{/signup}" th:object="${registerRequest}" th:method="POST" novalidate>
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-input"
+                            placeholder="Choose a username"
+                            th:field="*{username}"
+                            required
+                    >
+                    <p class="validation-warning" id="username-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="Enter your email"
+                            th:field="*{email}"
+                            required
+                    >
+                    <p class="validation-warning" id="email-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-input"
+                            placeholder="Create a password"
+                            th:field="*{password}"
+                            required
+                    >
+                    <p class="validation-warning" id="password-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign up</button>
+            </form>
+
+            <p class="login-text">
+                Already have an account? <a href="/login" class="login-link">Log in</a>
+            </p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,16 +1,20 @@
 package capyeats.order.model;
 
+import capyeats.common.BaseEntity;
 import capyeats.menu.model.MenuItem;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Builder
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "order_items")
-public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrderItem extends BaseEntity {
 
     @ManyToOne
     private Order order;
