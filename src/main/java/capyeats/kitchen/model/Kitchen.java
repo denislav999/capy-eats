@@ -20,6 +20,27 @@ public class Kitchen extends BaseEntity {
     private String name;
     @Column(nullable = false)
     private String address;
+    //location :D
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
+    @Column
+    private Float rating;
+
+    @Column
+    private Integer reviewsCount;
+
+    @Column
+    private Integer minDeliveryTime;
+
+    @Column
+    private Integer maxDeliveryTime;
+
+    @Column
+    private Double deliveryFee;
 
     @OneToMany(mappedBy="kitchen")
     private List<MenuItem> menu;

@@ -24,7 +24,7 @@
             <h1 class="login-title">Welcome back</h1>
             <p class="login-subtitle">Log in to your capyEats account</p>
 
-            <form class="login-form">
+            <form class="login-form" th:action="@{/login}" method="POST" th:object="${loginRequest}" novalidate>
                 <div class="form-group">
                     <label for="username" class="form-label">Username</label>
                     <input

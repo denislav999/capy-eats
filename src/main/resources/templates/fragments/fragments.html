@@ -2,11 +2,11 @@
     <div class="container">
         <div class="nav">
             <div class="nav-left">
-                <a href="/" class="logo">capyEats</a>
+                <a th:href="@{/}" class="logo">capyEats</a>
                 <div class="auth-buttons">
-                    <a class="btn btn-text" href="/login">Log in</a>
-                    <a class="btn btn-text" href="/signup">Sign up</a>
-                    <a class="btn btn-primary" href="/signup-kitchen">Sign up kitchen</a>
+                    <a class="btn btn-text" th:href="@{/login}">Log in</a>
+                    <a class="btn btn-text" th:href="@{/signup}">Sign up</a>
+                    <a class="btn btn-primary" th:href="@{/signup-kitchen}">Sign up kitchen</a>
                 </div>
             </div>
         </div>
@@ -23,21 +23,21 @@
             <div class="footer-links">
                 <div class="footer-column">
                     <h4>Company</h4>
-                    <a href="/about">About</a>
-                    <a href="/careers">Careers</a>
-                    <a href="/press">Press</a>
+                    <a th:href="@{/about}">About</a>
+                    <a th:href="@{/careers}">Careers</a>
+                    <a th:href="@{/press}">Press</a>
                 </div>
                 <div class="footer-column">
                     <h4>For Kitchens</h4>
-                    <a href="/partner">Partner</a>
-                    <a href="/resources">Resources</a>
-                    <a href="/support">Support</a>
+                    <a th:href="@{/partner}">Partner</a>
+                    <a th:href="@{/resources}">Resources</a>
+                    <a th:href="@{/support}">Support</a>
                 </div>
                 <div class="footer-column">
                     <h4>Legal</h4>
-                    <a href="/privacy">Privacy</a>
-                    <a href="/terms">Terms</a>
-                    <a href="/cookies">Cookies</a>
+                    <a th:href="@{/privacy}">Privacy</a>
+                    <a th:href="@{/terms}">Terms</a>
+                    <a th:href="@{/cookies}">Cookies</a>
                 </div>
             </div>
         </div>

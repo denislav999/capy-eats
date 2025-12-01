@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -48,15 +49,19 @@ public class UserService {
     }
 
 
-    public void login (String username, String password) {
+    public User login (String username, String password) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (passwordEncoder.matches(password, user.getPassword())) {
-
+                return  user;
             }
         }
+        return null;
+    }
 
+    public User getUserById(UUID id) {
+        return this.userRepository.findById(id).orElse(null);
     }
 
 }

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>capyEats - Order Food</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+<header class="app-header">
+    <div class="container">
+        <div class="header-content">
+            <a href="home.html" class="logo">capyEats</a>
+            <div class="header-actions">
+                <button class="btn btn-text">Orders</button>
+                <button class="btn btn-text">Profile</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="app-main">
+    <!-- Hero Search Section -->
+    <section class="search-hero">
+        <div class="container">
+            <h1 class="search-title">What are you craving?</h1>
+            <div class="search-bar">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" placeholder="Search for cuisines or dishes" class="search-input">
+                <button class="search-button">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <h2 class="section-title">Cuisines</h2>
+            <div class="categories-grid">
+                <button class="category-card">
+                    <div class="category-icon">
+                        <img src="/placeholder.svg?height=48&width=48" alt="Burgers">
+                    </div>
+                    <span class="category-name">Burgers</span>
+                </button>
+                <button class="category-card">
+                    <div class="category-icon">
+                        <img src="/placeholder.svg?height=48&width=48" alt="Pizza">
+                    </div>
+                    <span class="category-name">Pizza</span>
+                </button>
+                <button class="category-card">
+                    <div class="category-icon">
+                        <img src="/placeholder.svg?height=48&width=48" alt="Sushi">
+                    </div>
+                    <span class="category-name">Sushi</span>
+                </button>
+                <button class="category-card">
+                    <div class="category-icon">
+                        <img src="/placeholder.svg?height=48&width=48" alt="Pasta">
+                    </div>
+                    <span class="category-name">Pasta</span>
+                </button>
+                <button class="category-card">
+                    <div class="category-icon">
+                        <img src="/placeholder.svg?height=48&width=48" alt="Healthy">
+                    </div>
+                    <span class="category-name">Healthy</span>
+                </button>
+                <button class="category-card">
+                    <div class="category-icon">
+                        <img src="/placeholder.svg?height=48&width=48" alt="Desserts">
+                    </div>
+                    <span class="category-name">Desserts</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Featured Kitchens -->
+        <section class="kitchens-section">
+            <h2 class="section-title">Featured ghost kitchens</h2>
+            <div class="kitchens-grid">
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Burger Lab">
+                        <span class="delivery-time">20-30 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Burger Lab</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.8</span>
+                            </div>
+                            <span class="cuisine-type">Burgers • American</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">Free delivery</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Pizza Perfection">
+                        <span class="delivery-time">25-35 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Pizza Perfection</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.9</span>
+                            </div>
+                            <span class="cuisine-type">Pizza • Italian</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">Popular</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Sushi Express">
+                        <span class="delivery-time">30-40 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Sushi Express</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.7</span>
+                            </div>
+                            <span class="cuisine-type">Sushi • Japanese</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">New</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Green Bowl">
+                        <span class="delivery-time">15-25 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Green Bowl</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.9</span>
+                            </div>
+                            <span class="cuisine-type">Healthy • Salads</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">Fastest</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Taco Street">
+                        <span class="delivery-time">20-30 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Taco Street</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.8</span>
+                            </div>
+                            <span class="cuisine-type">Mexican • Tacos</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">Trending</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Pasta House">
+                        <span class="delivery-time">25-35 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Pasta House</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.7</span>
+                            </div>
+                            <span class="cuisine-type">Pasta • Italian</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">Free delivery</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- All Kitchens -->
+        <section class="kitchens-section">
+            <h2 class="section-title">All kitchens near you</h2>
+            <div class="filters-bar">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Free delivery</button>
+                <button class="filter-btn">Under 30 min</button>
+                <button class="filter-btn">Top rated</button>
+                <button class="filter-btn">New</button>
+            </div>
+            <div class="kitchens-grid">
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Fusion Kitchen">
+                        <span class="delivery-time">30-40 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Fusion Kitchen</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.6</span>
+                            </div>
+                            <span class="cuisine-type">Asian Fusion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="BBQ Masters">
+                        <span class="delivery-time">35-45 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">BBQ Masters</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.8</span>
+                            </div>
+                            <span class="cuisine-type">BBQ • American</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Thai Delight">
+                        <span class="delivery-time">25-35 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Thai Delight</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.9</span>
+                            </div>
+                            <span class="cuisine-type">Thai • Asian</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">Free delivery</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Curry Corner">
+                        <span class="delivery-time">30-40 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Curry Corner</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.7</span>
+                            </div>
+                            <span class="cuisine-type">Indian • Curry</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Deli Delights">
+                        <span class="delivery-time">15-25 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Deli Delights</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.5</span>
+                            </div>
+                            <span class="cuisine-type">Sandwiches • Deli</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">Fastest</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+                        <img src="/placeholder.svg?height=200&width=350" alt="Ramen Bar">
+                        <span class="delivery-time">25-35 min</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-name">Ramen Bar</h3>
+                        <div class="kitchen-meta">
+                            <div class="rating">
+                                <span class="star">★</span>
+                                <span>4.8</span>
+                            </div>
+                            <span class="cuisine-type">Ramen • Japanese</span>
+                        </div>
+                        <div class="kitchen-tags">
+                            <span class="tag">Popular</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+</body>
+</html>

@@ -31,6 +31,13 @@ public class User extends BaseEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    //location :D
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
     @OneToMany(mappedBy="user", fetch = FetchType.EAGER)
     @OrderBy("createdAt")
     private Set<Order> orders = new HashSet<>();
