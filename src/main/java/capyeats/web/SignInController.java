@@ -77,7 +77,7 @@ public class SignInController {
     }
 
     @GetMapping("/home")
-    public ModelAndView home(HttpSession session ) {
+    public ModelAndView home(HttpSession session) {
         User user = userService.getUserById((UUID)session.getAttribute("userId"));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");

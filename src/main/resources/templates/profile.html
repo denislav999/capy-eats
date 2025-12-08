@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - capyEats</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+<!-- Simplified header with only logo linking to home -->
+<header class="app-header">
+    <div class="container">
+        <a href="/home" class="logo">capyEats</a>
+    </div>
+</header>
+
+<main class="profile-main">
+    <div class="container">
+        <!-- Redesigned profile layout with better visual hierarchy -->
+        <div class="profile-wrapper">
+            <!-- Sidebar -->
+            <div th:replace="fragments/fragments::profile-sidebar"></div>
+
+            <!-- Main Content -->
+            <div class="profile-content">
+                <div class="content-header">
+                    <h1>Personal Information</h1>
+                    <button class="btn-edit" id="edit-btn">Edit Profile</button>
+                </div>
+
+                <!-- Profile Info -->
+                <div class="info-card">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Full Name</label>
+                            <div class="info-value" id="name-display" th:text="${user.fullName != null ? user.fullName : 'None'}">None</div>
+                            <input type="text" class="info-input hidden" id="name-input" value="John Doe">
+                        </div>
+
+                        <div class="info-item">
+                            <label>Email Address</label>
+                            <div class="info-value" id="email-display" th:text="${user.email}"></div>
+                            <input type="email" class="info-input hidden" id="email-input" value="john.doe@example.com">
+                        </div>
+
+                        <div class="info-item">
+                            <label>Phone Number</label>
+                            <div class="info-value" id="phone-display" th:text="${user.phoneNumber != null ? user.phoneNumber : 'None'}"></div>
+                            <input type="tel" class="info-input hidden" id="phone-input" value="+1 (555) 123-4567">
+                        </div>
+
+                        <div class="info-item">
+                            <label>Username</label>
+                            <div class="info-value" id="username-display" th:text="${user.username}"></div>
+                            <input type="text" class="info-input hidden" id="username-input" value="johndoe">
+                        </div>
+                    </div>
+
+                    <div class="edit-actions hidden" id="edit-actions">
+                        <button class="btn-save" id="save-btn">Save Changes</button>
+                        <a class="btn-cancel" id="cancel-btn" href="/profile">Cancel</a>
+                    </div>
+                </div>
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-info">
+                            <div class="stat-value" th:text="${totalOrders}"></div>
+                            <div class="stat-label">Total Orders</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <div class="stat-value" th:text="${totalSpend}"></div>
+                            <div class="stat-label">Total Spent</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Favorites</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Addresses -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Saved Addresses</h2>
+                        <button class="btn-add">+ Add New</button>
+                    </div>
+                    <div class="address-grid">
+                        <div class="address-card">
+                            <div class="address-type">🏠 Home</div>
+                            <div class="address-text">123 Main Street, Apt 4B<br>New York, NY 10001</div>
+                            <button class="link-btn">Edit</button>
+                        </div>
+                        <div class="address-card">
+                            <div class="address-type">💼 Work</div>
+                            <div class="address-text">456 Office Plaza, Suite 200<br>New York, NY 10002</div>
+                            <button class="link-btn">Edit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Payment Methods</h2>
+                        <button class="btn-add">+ Add Card</button>
+                    </div>
+                    <div class="payment-card">
+                        <div class="card-icon">💳</div>
+                        <div class="card-info">
+                            <div class="card-name">Visa •••• 4242</div>
+                            <div class="card-expiry">Expires 12/25</div>
+                        </div>
+                        <button class="link-btn">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Edit profile functionality
+    const editBtn = document.getElementById('edit-btn');
+    const saveBtn = document.getElementById('save-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const editActions = document.getElementById('edit-actions');
+
+    const nameDisplay = document.getElementById('name-display');
+    const emailDisplay = document.getElementById('email-display');
+    const phoneDisplay = document.getElementById('phone-display');
+    const usernameDisplay = document.getElementById('username-display');
+
+    const nameInput = document.getElementById('name-input');
+    const emailInput = document.getElementById('email-input');
+    const phoneInput = document.getElementById('phone-input');
+    const usernameInput = document.getElementById('username-input');
+
+    editBtn.addEventListener('click', () => {
+        editBtn.style.display = 'none';
+        editActions.classList.remove('hidden');
+
+        nameDisplay.classList.add('hidden');
+        emailDisplay.classList.add('hidden');
+        phoneDisplay.classList.add('hidden');
+        usernameDisplay.classList.add('hidden');
+
+        nameInput.classList.remove('hidden');
+        emailInput.classList.remove('hidden');
+        phoneInput.classList.remove('hidden');
+        usernameInput.classList.remove('hidden');
+    });
+
+    saveBtn.addEventListener('click', () => {
+        nameDisplay.textContent = nameInput.value;
+        emailDisplay.textContent = emailInput.value;
+        phoneDisplay.textContent = phoneInput.value;
+        usernameDisplay.textContent = usernameInput.value;
+
+        toggleViewMode();
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        nameInput.value = nameDisplay.textContent;
+        emailInput.value = emailDisplay.textContent;
+        phoneInput.value = phoneDisplay.textContent;
+        usernameInput.value = usernameDisplay.textContent;
+
+        toggleViewMode();
+    });
+
+    function toggleViewMode() {
+        editBtn.style.display = 'block';
+        editActions.classList.add('hidden');
+
+        nameDisplay.classList.remove('hidden');
+        emailDisplay.classList.remove('hidden');
+        phoneDisplay.classList.remove('hidden');
+        usernameDisplay.classList.remove('hidden');
+
+        nameInput.classList.add('hidden');
+        emailInput.classList.add('hidden');
+        phoneInput.classList.add('hidden');
+        usernameInput.classList.add('hidden');
+    }
+
+</script>
+</body>
+</html>

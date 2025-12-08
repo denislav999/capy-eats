@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Service
 public class UserService {
+    private static final String DEFAULT_PROFILE_PICTURE = "https://avatars.githubusercontent.com/u/237266975?v=4";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -36,13 +37,14 @@ public class UserService {
 
         User user = User.builder()
                 .username(registerUserRequest.getUsername())
+                .profilePicture(DEFAULT_PROFILE_PICTURE)
                 .email(registerUserRequest.getEmail())
                 .password(passwordEncoder.encode(registerUserRequest.getPassword()))
                 .address(null)
                 .role(UserRole.USER)
                 .phoneNumber(null)
+                .active(true)
                 .build();
-
 
         userRepository.saveAndFlush(user);
         return user;

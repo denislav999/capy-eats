@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - capyEats</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+<header class="app-header">
+    <div class="container">
+        <a href="/home" class="logo">capyEats</a>
+    </div>
+</header>
+
+<main class="profile-main">
+    <div class="container">
+        <div class="profile-wrapper">
+            <!-- Sidebar -->
+            <div th:replace="fragments/fragments::profile-sidebar"></div>
+            <!-- Main Content -->
+            <div class="profile-content">
+                <div class="content-header">
+                    <h1>Order History</h1>
+                </div>
+
+                <div class="orders-list">
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <div class="order-restaurant">
+                                    <img src="/placeholder.svg?height=50&width=50" alt="Restaurant">
+                                    <div>
+                                        <div class="order-name">Burger Haven</div>
+                                        <div class="order-date">Dec 15, 2024 • 6:30 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-status delivered">Delivered</div>
+                        </div>
+                        <div class="order-items">
+                            <p>2x Classic Burger, 1x Fries, 1x Coke</p>
+                        </div>
+                        <div class="order-footer">
+                            <div class="order-total">Total: $28.50</div>
+                            <button class="reorder-btn">Reorder</button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <div class="order-restaurant">
+                                    <img src="/placeholder.svg?height=50&width=50" alt="Restaurant">
+                                    <div>
+                                        <div class="order-name">Pizza Palace</div>
+                                        <div class="order-date">Dec 12, 2024 • 8:15 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-status delivered">Delivered</div>
+                        </div>
+                        <div class="order-items">
+                            <p>1x Margherita Pizza (Large), 1x Garlic Bread</p>
+                        </div>
+                        <div class="order-footer">
+                            <div class="order-total">Total: $24.99</div>
+                            <button class="reorder-btn">Reorder</button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <div class="order-restaurant">
+                                    <img src="/placeholder.svg?height=50&width=50" alt="Restaurant">
+                                    <div>
+                                        <div class="order-name">Sushi Express</div>
+                                        <div class="order-date">Dec 10, 2024 • 7:45 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-status cancelled">Cancelled</div>
+                        </div>
+                        <div class="order-items">
+                            <p>1x California Roll, 1x Salmon Nigiri Set</p>
+                        </div>
+                        <div class="order-footer">
+                            <div class="order-total">Total: $32.00</div>
+                            <button class="reorder-btn">Reorder</button>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <div class="order-restaurant">
+                                    <img src="/placeholder.svg?height=50&width=50" alt="Restaurant">
+                                    <div>
+                                        <div class="order-name">Taco Fiesta</div>
+                                        <div class="order-date">Dec 8, 2024 • 1:20 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-status delivered">Delivered</div>
+                        </div>
+                        <div class="order-items">
+                            <p>3x Beef Tacos, 1x Nachos, 2x Margarita</p>
+                        </div>
+                        <div class="order-footer">
+                            <div class="order-total">Total: $41.20</div>
+                            <button class="reorder-btn">Reorder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

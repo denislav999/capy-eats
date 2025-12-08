@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Addresses - capyEats</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+<header class="app-header">
+    <div class="container">
+        <a href="/home" class="logo">capyEats</a>
+    </div>
+</header>
+
+<main class="profile-main">
+    <div class="container">
+        <div class="profile-wrapper">
+            <!-- Sidebar -->
+            <div th:replace="fragments/fragments::profile-sidebar"></div>
+            <!-- Main Content -->
+            <div class="profile-content">
+                <div class="content-header">
+                    <h1>Saved Addresses</h1>
+                    <button class="btn-edit">+ Add Address</button>
+                </div>
+
+                <div class="address-list">
+                    <div class="address-item">
+                        <div class="address-header">
+                            <div class="address-label">
+                                <span class="address-icon">🏠</span>
+                                <span class="address-title">Home</span>
+                                <span class="default-badge">Default</span>
+                            </div>
+                            <div class="address-actions">
+                                <button class="action-btn edit">Edit</button>
+                                <button class="action-btn delete">Delete</button>
+                            </div>
+                        </div>
+                        <div class="address-details">
+                            <p class="address-street">123 Main Street, Apt 4B</p>
+                            <p class="address-city">New York, NY 10001</p>
+                            <p class="address-phone">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+
+                    <div class="address-item">
+                        <div class="address-header">
+                            <div class="address-label">
+                                <span class="address-icon">💼</span>
+                                <span class="address-title">Work</span>
+                            </div>
+                            <div class="address-actions">
+                                <button class="action-btn edit">Edit</button>
+                                <button class="action-btn delete">Delete</button>
+                            </div>
+                        </div>
+                        <div class="address-details">
+                            <p class="address-street">456 Office Plaza, Suite 200</p>
+                            <p class="address-city">New York, NY 10002</p>
+                            <p class="address-phone">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+
+                    <div class="address-item">
+                        <div class="address-header">
+                            <div class="address-label">
+                                <span class="address-icon">📍</span>
+                                <span class="address-title">Other</span>
+                            </div>
+                            <div class="address-actions">
+                                <button class="action-btn edit">Edit</button>
+                                <button class="action-btn delete">Delete</button>
+                            </div>
+                        </div>
+                        <div class="address-details">
+                            <p class="address-street">789 Park Avenue</p>
+                            <p class="address-city">Brooklyn, NY 11201</p>
+                            <p class="address-phone">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

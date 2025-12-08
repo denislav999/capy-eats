@@ -46,3 +46,25 @@
         </div>
     </div>
 </footer>
+
+<aside class="profile-sidebar" th:fragment="profile-sidebar">
+    <div class="profile-avatar-card">
+        <div class="profile-avatar">
+            <img th:src="@{${user.profilePicture}}" height="100" width="100" alt="Profile">
+        </div>
+        <h2 class="profile-name" th:text="${user.fullName != null ? user.fullName : 'Full Name'}"></h2>
+        <p class="profile-username" th:text="${user.email}"></p>
+    </div>
+
+    <nav class="profile-nav">
+        <a th:href="@{/profile}" class="nav-item" th:classappend="${activePage == 'profile'} ? ' active'">Personal Info</a>
+        <a th:href="@{/profile/addresses}" class="nav-item" th:classappend="${activePage == 'addresses'} ? ' active'">Addresses</a>
+        <a th:href="@{/profile/payments}" class="nav-item" th:classappend="${activePage == 'payments'} ? ' active'">Payment</a>
+        <a th:href="@{/profile/orders}" class="nav-item" th:classappend="${activePage == 'orders'} ? ' active'">Orders</a>
+        <a th:href="@{/profile/settings}" class="nav-item" th:classappend="${activePage == 'settings'} ? ' active'">Settings</a>
+    </nav>
+
+    <button class="logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location.href='/logout';">
+        <span>Logout</span>
+    </button>
+</aside>
