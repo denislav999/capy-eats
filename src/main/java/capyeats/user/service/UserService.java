@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -62,6 +63,9 @@ public class UserService {
         return null;
     }
 
+    public Set<User> findAllByRole(UserRole role) {
+        return userRepository.findAllByRole(role);
+    }
     public User getUserById(UUID id) {
         return this.userRepository.findById(id).orElse(null);
     }

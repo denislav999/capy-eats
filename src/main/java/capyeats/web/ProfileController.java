@@ -1,12 +1,13 @@
 package capyeats.web;
 
 import capyeats.order.service.OrderService;
+import capyeats.review.service.ReviewService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
 
@@ -15,43 +16,42 @@ import java.util.UUID;
 public class ProfileController {
 
     private final OrderService orderService;
+    private final ReviewService reviewService;
 
     @Autowired
-    public ProfileController(OrderService orderService) {
+    public ProfileController(OrderService orderService, ReviewService reviewService) {
         this.orderService = orderService;
+        this.reviewService = reviewService;
     }
+
     @GetMapping
-    public ModelAndView profile(HttpSession session) {
-        ModelAndView mv = new ModelAndView("profile");
-        mv.addObject("activePage", "profile");
-        mv.addObject("totalOrders", orderService.getAllOrders((UUID)session.getAttribute("userId")));
-        mv.addObject("totalSpend", orderService.getTotalPrice((UUID)session.getAttribute("userId")));
-        return mv;
+    public String profile(HttpSession session, Model model) {
+        model.addAttribute("activePage", "profile");
+        model.addAttribute("totalReviews", reviewService.getReviewsByUser((UUID)session.getAttribute("userId")).size());
+        model.addAttribute("totalOrders", orderService.getAllOrders((UUID)session.getAttribute("userId")));
+        model.addAttribute("totalSpend", orderService.getTotalPrice((UUID)session.getAttribute("userId")));
+        return "profile";
     }
 
     @GetMapping("/addresses")
-    public ModelAndView addresses() {
-        ModelAndView mv = new ModelAndView("addresses");
-        mv.addObject("activePage", "addresses");
-        return mv;
+    public String addresses(Model model) {
+        model.addAttribute("activePage", "addresses");
+        return "addresses";
     }
 
     @GetMapping("/orders")
-    public ModelAndView orders() {
-        ModelAndView mv = new ModelAndView("orders");
-        mv.addObject("activePage", "orders");
-        return mv;
+    public String orders(Model model) {
+        model.addAttribute("activePage", "orders");
+        return "orders";
     }
     @GetMapping("/payments")
-    public ModelAndView payments() {
-        ModelAndView mv = new ModelAndView("payment");
-        mv.addObject("activePage", "payments");
-        return mv;
+    public String payments(Model model) {
+        model.addAttribute("activePage", "payments");
+        return "payment";
     }
     @GetMapping("/settings")
-    public ModelAndView settings() {
-        ModelAndView mv = new ModelAndView("settings");
-        mv.addObject("activePage", "settings");
-        return mv;
+    public String settings(Model model) {
+        model.addAttribute("activePage", "settings");
+        return "settings";
     }
 }

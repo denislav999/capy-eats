@@ -1,11 +1,14 @@
 package capyeats.order.repository;
 
 import capyeats.order.model.Order;
+import capyeats.order.model.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -14,5 +17,6 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
     int countCompletedOrders(UUID userId);
     @Query("SELECT COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE o.user.id= :userId AND o.orderStatus = 'COMPLETED'")
     BigDecimal getTotalPrice(UUID userId);
-
+    @Query("select o from Order o where o.orderStatus = :status and o.createdAt < :cutoff")
+    List<Order> findAllByOrderStatus_Preparing(OrderStatus status, Instant cutoff);
 }
