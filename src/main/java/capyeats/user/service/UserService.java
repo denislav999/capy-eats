@@ -3,6 +3,7 @@ package capyeats.user.service;
 import capyeats.user.model.User;
 import capyeats.user.model.UserRole;
 import capyeats.user.repository.UserRepository;
+import capyeats.web.dto.LoginRequest;
 import capyeats.web.dto.RegisterUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,20 +53,20 @@ public class UserService {
     }
 
 
-    public User login (String username, String password) {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            if (passwordEncoder.matches(password, user.getPassword())) {
-                return  user;
-            }
+    public User login (LoginRequest loginRequest) {
+        Optional<User> optionalUser = Optional.of(userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new RuntimeException("Invalid username or password")));
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), optionalUser.get().getPassword())) {
+            throw new RuntimeException(("Invalid username or password"));
         }
-        return null;
+
+        return optionalUser.get();
     }
 
     public Set<User> findAllByRole(UserRole role) {
         return userRepository.findAllByRole(role);
     }
+
     public User getUserById(UUID id) {
         return this.userRepository.findById(id).orElse(null);
     }

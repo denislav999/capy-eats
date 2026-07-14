@@ -24,7 +24,7 @@
             <h1 class="login-title">Welcome back</h1>
             <p class="login-subtitle">Log in to your capyEats account</p>
 
-            <form class="login-form" th:action="@{/login}" method="POST" th:object="${loginRequest}" novalidate>
+            <form class="login-form" th:action="@{/login}" method="POST" th:object="${loginRequest}" th:method="POST" novalidate>
                 <div class="form-group">
                     <label for="username" class="form-label">Username</label>
                     <input
@@ -33,10 +33,11 @@
                             name="username"
                             class="form-input"
                             placeholder="Enter your username"
+                            th:field="*{username}"
                             required
                     >
-                    <!-- Added validation warning message -->
-                    <p class="validation-warning" id="username-warning">Username validation message</p>
+                    <p class="validation-warning" th:if="${error}" th:text="${error}"></p>
+                    <p class="validation-warning" id="username-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                 </div>
 
                 <div class="form-group">
@@ -47,10 +48,11 @@
                             name="password"
                             class="form-input"
                             placeholder="Enter your password"
+                            th:field="*{password}"
                             required
                     >
-                    <!-- Added validation warning message -->
-                    <p class="validation-warning" id="password-warning">Password validation message</p>
+
+                    <p class="validation-warning" id="password-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-full">Log in</button>

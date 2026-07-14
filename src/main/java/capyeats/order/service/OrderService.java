@@ -3,7 +3,6 @@ package capyeats.order.service;
 import capyeats.order.model.Order;
 import capyeats.order.model.OrderStatus;
 import capyeats.order.repository.OrderRepository;
-import capyeats.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,22 +24,24 @@ public class OrderService {
     public int getAllOrders(UUID userId) {
         return this.orderRepository.countCompletedOrders(userId);
     }
+
     public BigDecimal getTotalPrice(UUID userId) {
         return this.orderRepository.getTotalPrice(userId);
     }
 
+    
     public void cancelOldPendingOrders() {
-        Instant cutoff = Instant.now().minus(Duration.ofHours(5));
+        Instant cutoff = Instant.now().minus(Duration.ofHours(10));
 
         List<Order> oldPendingOrders =
-                orderRepository.findAllByStatusAndCreatedAtBefore(OrderStatus.PREPARING, cutoff);
+                orderRepository.findAllByOrderStatus_Preparing(cutoff);
 
         if (oldPendingOrders.isEmpty()) {
             return;
         }
 
         for (Order order : oldPendingOrders) {
-            order.setStatus(OrderStatus.CANCELLED);
+            order.setOrderStatus(OrderStatus.CANCELED);
         }
 
         orderRepository.saveAll(oldPendingOrders);

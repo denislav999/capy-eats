@@ -24,6 +24,7 @@ public class SignInController {
     public SignInController(UserService userService) {
         this.userService = userService;
     }
+     
     @GetMapping("/login")
     public String login (Model model) {
         model.addAttribute("loginRequest", new LoginRequest());
@@ -31,13 +32,19 @@ public class SignInController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid LoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
+    public String login(@Valid LoginRequest loginRequest, BindingResult bindingResult, HttpSession session, Model model) {
         if (bindingResult.hasErrors()) {
             return "login";
         }
-        User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        session.setAttribute("userId", user.getId());
-        return "redirect:/home";
+        try {
+            User user = userService.login(loginRequest);
+            session.setAttribute("userId", user.getId());
+            return "redirect:/home";
+
+        } catch (RuntimeException e) {
+            model.addAttribute("error", e.getMessage());
+            return "login";
+        }
     }
 
     @GetMapping("/logout")

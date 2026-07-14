@@ -18,5 +18,5 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
     @Query("SELECT COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE o.user.id= :userId AND o.orderStatus = 'COMPLETED'")
     BigDecimal getTotalPrice(UUID userId);
     @Query("select o from Order o where o.orderStatus = :status and o.createdAt < :cutoff")
-    List<Order> findAllByOrderStatus_Preparing(OrderStatus status, Instant cutoff);
+    List<Order> findAllByOrderStatus_Preparing(Instant cutoff);
 }
