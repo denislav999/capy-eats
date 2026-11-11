@@ -1,71 +1,76 @@
-HELP.md
+# Maven and Java build outputs
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+build/
+out/
+*.class
+*.jar
+*.war
+*.ear
+# The wrapper JAR is a build tool, not a generated application artifact.
+!**/.mvn/wrapper/maven-wrapper.jar
+# Keep pom.xml, mvnw, mvnw.cmd and .mvn/ configuration trackable.
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
+# IntelliJ IDEA
+.idea/
+*.run.xml
 *.iws
 *.iml
 *.ipr
-.idea/
-/target/
-out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-# Compiled class file
-*.class
-
-# Log file
+# Logs and JVM diagnostics
 *.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+*.log.*
+logs/
 hs_err_pid*
 replay_pid*
+*.hprof
 
-# Maven Wrapper
-!/.mvn/wrapper/maven-wrapper.properties
+# Temporary files and editor backups
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.bak
+/tmp/
+/temp/
 
-# ======================
-# macOS system filesa
-# ======================
+# macOS
 .DS_Store
 .AppleDouble
 .LSOverride
+._*
+.Spotlight-V100/
+.Trashes/
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Local environment secrets; only sanitized templates belong in Git.
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+.secrets/
+secrets/
+
+# Local Spring profiles (must be explicitly activated or imported).
+# Keep application.properties/yml/yaml and shared dev/test/prod profiles tracked.
+application-local.properties
+application-local.yml
+application-local.yaml
+application-local-*.properties
+application-local-*.yml
+application-local-*.yaml
+
+# Private keys and credential stores; public certificates remain trackable.
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
