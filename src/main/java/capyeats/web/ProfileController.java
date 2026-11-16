@@ -1,13 +1,16 @@
 package capyeats.web;
 
+import capyeats.address.service.AddressService;
 import capyeats.order.service.OrderService;
 import capyeats.review.service.ReviewService;
+import capyeats.web.dto.AddressRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -17,11 +20,13 @@ public class ProfileController {
 
     private final OrderService orderService;
     private final ReviewService reviewService;
+    private final AddressService addressService;
 
     @Autowired
-    public ProfileController(OrderService orderService, ReviewService reviewService) {
+    public ProfileController(OrderService orderService, ReviewService reviewService, AddressService addressService) {
         this.orderService = orderService;
         this.reviewService = reviewService;
+        this.addressService = addressService;
     }
 
     @GetMapping
@@ -36,7 +41,81 @@ public class ProfileController {
     @GetMapping("/addresses")
     public String addresses(Model model) {
         model.addAttribute("activePage", "addresses");
+        model.addAttribute("addressRequest", new AddressRequest());
         return "addresses";
+    }
+
+
+    @PostMapping("/addresses")
+    public String addAddress(@Valid @ModelAttribute("addressRequest") AddressRequest request,
+            BindingResult bindingResult,
+            HttpSession session,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("activePage", "addresses");
+            return "addresses";
+        }
+
+        UUID userId = (UUID) session.getAttribute("userId");
+
+        addressService.createAddress(userId, request);
+
+        return "redirect:/profile/addresses";
+    }
+
+    @GetMapping("/addresses/{addressId}/edit")
+    public String editAddress(
+            @PathVariable("addressId") UUID addressId,
+            HttpSession session,
+            Model model) {
+
+        UUID userId = (UUID) session.getAttribute("userId");
+
+        AddressRequest request =
+                addressService.getAddressForEdit(userId, addressId);
+
+        model.addAttribute("activePage", "addresses");
+        model.addAttribute("editAddressId", addressId);
+        model.addAttribute("addressRequest", request);
+
+        return "addresses";
+    }
+
+
+    @PostMapping("/addresses/{addressId}")
+    public String updateAddress(
+            @PathVariable("addressId") UUID addressId,
+            @Valid @ModelAttribute("addressRequest") AddressRequest request,
+            BindingResult bindingResult,
+            HttpSession session,
+            Model model) {
+
+        UUID userId = (UUID) session.getAttribute("userId");
+
+        if (bindingResult.hasErrors()) {
+            addressService.getAddressForEdit(userId, addressId);
+
+            model.addAttribute("activePage", "addresses");
+            model.addAttribute("editAddressId", addressId);
+
+            return "addresses";
+        }
+
+        addressService.updateAddress(userId, addressId, request);
+
+        return "redirect:/profile/addresses";
+    }
+
+    @PostMapping("/addresses/{addressId}/delete")
+    public String deleteAddress(
+            @PathVariable("addressId") UUID addressId,
+            HttpSession session) {
+
+        UUID userId = (UUID) session.getAttribute("userId");
+        addressService.deleteAddress(userId, addressId);
+
+        return "redirect:/profile/addresses";
     }
 
     @GetMapping("/orders")

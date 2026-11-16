@@ -18,13 +18,6 @@ import java.util.List;
 public class Kitchen extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
-    @Column(nullable = false)
-    private String address;
-    //location :D
-    @Column
-    private Double latitude;
-    @Column
-    private Double longitude;
 
     @Column
     private Float rating;

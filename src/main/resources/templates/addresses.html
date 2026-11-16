@@ -1,87 +1,308 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Addresses - capyEats</title>
-    <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/profile.css">
+
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+
+    <style>
+        .address-form-toggle {
+            margin-bottom: 24px;
+        }
+
+        .address-form-toggle > summary {
+            display: inline-block;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .address-form-toggle > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .address-form {
+            margin-top: 20px;
+        }
+
+        .address-fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .address-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .address-field input,
+        .address-field select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font: inherit;
+        }
+
+        .address-field input.invalid,
+        .address-field select.invalid {
+            border-color: #b91c1c;
+        }
+
+        .field-error {
+            color: #b91c1c;
+            font-size: 0.875rem;
+            margin: 4px 0 0;
+        }
+
+        .address-form-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .address-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .address-item {
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 600px) {
+            .address-fields {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 <header class="app-header">
     <div class="container">
-        <a href="/home" class="logo">capyEats</a>
+        <a th:href="@{/home}" class="logo">capyEats</a>
     </div>
 </header>
 
 <main class="profile-main">
     <div class="container">
         <div class="profile-wrapper">
-            <!-- Sidebar -->
-            <div th:replace="fragments/fragments::profile-sidebar"></div>
-            <!-- Main Content -->
+            <div th:replace="~{fragments/fragments :: profile-sidebar}"></div>
+
             <div class="profile-content">
                 <div class="content-header">
                     <h1>Saved Addresses</h1>
-                    <button class="btn-edit">+ Add Address</button>
                 </div>
 
+                <!-- Clicking the summary opens/closes the form. -->
+                <details class="address-form-toggle"
+                         th:open="${editAddressId != null or #fields.hasErrors('addressRequest.*')}">
+                    <summary class="btn-add"
+                             th:text="${editAddressId != null ? 'Edit Address' : '+ Add Address'}">
+                        + Add Address
+                    </summary>
+
+                    <form class="section-card address-form"
+                          th:action="${editAddressId == null}
+                              ? @{/profile/addresses}
+                              : @{/profile/addresses/{id}(id=${editAddressId})}"
+                          th:object="${addressRequest}"
+                          method="post"
+                          novalidate>
+
+                        <h2 th:text="${editAddressId != null ? 'Edit Address' : 'New Address'}">
+                            New Address
+                        </h2>
+
+                        <div class="address-fields">
+                            <div class="address-field">
+                                <label for="addressType">Address type</label>
+                                <select id="addressType"
+                                        th:field="*{addressType}"
+                                        th:errorclass="invalid"
+                                        aria-describedby="addressType-error"
+                                        th:attr="aria-invalid=${#fields.hasErrors('addressType')}"
+                                        required>
+                                    <option value="">Select a type</option>
+                                    <option value="HOME">Home</option>
+                                    <option value="WORK">Work</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                                <p id="addressType-error" class="field-error"
+                                   th:errors="*{addressType}"></p>
+                            </div>
+
+                            <div class="address-field">
+                                <label for="label">Label</label>
+                                <input id="label"
+                                       th:field="*{label}"
+                                       th:errorclass="invalid"
+                                       aria-describedby="label-error"
+                                       th:attr="aria-invalid=${#fields.hasErrors('label')}"
+                                       type="text"
+                                       placeholder="Home, Office, Parents' house"
+                                       maxlength="20"
+                                       required>
+                                <p id="label-error" class="field-error"
+                                   th:errors="*{label}"></p>
+                            </div>
+
+                            <div class="address-field">
+                                <label for="city">City</label>
+                                <input id="city"
+                                       th:field="*{city}"
+                                       th:errorclass="invalid"
+                                       aria-describedby="city-error"
+                                       th:attr="aria-invalid=${#fields.hasErrors('city')}"
+                                       type="text"
+                                       autocomplete="address-level2"
+                                       maxlength="30"
+                                       required>
+                                <p id="city-error" class="field-error"
+                                   th:errors="*{city}"></p>
+                            </div>
+
+                            <div class="address-field">
+                                <label for="postalCode">Postal code</label>
+                                <input id="postalCode"
+                                       th:field="*{postalCode}"
+                                       th:errorclass="invalid"
+                                       aria-describedby="postalCode-error"
+                                       th:attr="aria-invalid=${#fields.hasErrors('postalCode')}"
+                                       type="text"
+                                       autocomplete="postal-code"
+                                       inputmode="numeric"
+                                       pattern="[0-9]{4}"
+                                       title="Postal code must contain exactly 4 digits"
+                                       maxlength="4"
+                                       required>
+                                <p id="postalCode-error" class="field-error"
+                                   th:errors="*{postalCode}"></p>
+                            </div>
+
+                            <div class="address-field">
+                                <label for="street">Street</label>
+                                <input id="street"
+                                       th:field="*{street}"
+                                       th:errorclass="invalid"
+                                       aria-describedby="street-error"
+                                       th:attr="aria-invalid=${#fields.hasErrors('street')}"
+                                       type="text"
+                                       maxlength="30"
+                                       required>
+                                <p id="street-error" class="field-error"
+                                   th:errors="*{street}"></p>
+                            </div>
+
+                            <div class="address-field">
+                                <label for="streetNumber">Street number</label>
+                                <input id="streetNumber"
+                                       th:field="*{streetNumber}"
+                                       th:errorclass="invalid"
+                                       aria-describedby="streetNumber-error"
+                                       th:attr="aria-invalid=${#fields.hasErrors('streetNumber')}"
+                                       type="text"
+                                       placeholder="12A"
+                                       maxlength="10"
+                                       required>
+                                <p id="streetNumber-error" class="field-error"
+                                   th:errors="*{streetNumber}"></p>
+                            </div>
+
+                            <div class="address-field">
+                                <label for="apartment">Apartment (optional)</label>
+                                <input id="apartment"
+                                       th:field="*{apartment}"
+                                       th:errorclass="invalid"
+                                       aria-describedby="apartment-error"
+                                       th:attr="aria-invalid=${#fields.hasErrors('apartment')}"
+                                       type="text"
+                                       maxlength="20">
+                                <p id="apartment-error" class="field-error"
+                                   th:errors="*{apartment}"></p>
+                            </div>
+                        </div>
+
+                        <div class="address-form-actions">
+                            <button class="btn-save" type="submit"
+                                    th:text="${editAddressId != null ? 'Save Changes' : 'Save Address'}">
+                                Save Address
+                            </button>
+
+                            <a class="btn-cancel" th:href="@{/profile/addresses}">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </details>
+
+                <!-- Empty state -->
+                <div class="section-card"
+                     th:if="${#sets.isEmpty(user.addresses)}">
+                    <p>No saved addresses yet. Add your first delivery address.</p>
+                </div>
+
+                <!-- Real addresses from the logged-in user's collection -->
                 <div class="address-list">
-                    <div class="address-item">
-                        <div class="address-header">
-                            <div class="address-label">
-                                <span class="address-icon">🏠</span>
-                                <span class="address-title">Home</span>
-                                <span class="default-badge">Default</span>
-                            </div>
-                            <div class="address-actions">
-                                <button class="action-btn edit">Edit</button>
-                                <button class="action-btn delete">Delete</button>
-                            </div>
-                        </div>
-                        <div class="address-details">
-                            <p class="address-street">123 Main Street, Apt 4B</p>
-                            <p class="address-city">New York, NY 10001</p>
-                            <p class="address-phone">+1 (555) 123-4567</p>
-                        </div>
-                    </div>
+                    <div class="address-item"
+                         th:each="address : ${user.addresses}">
 
-                    <div class="address-item">
                         <div class="address-header">
                             <div class="address-label">
-                                <span class="address-icon">💼</span>
-                                <span class="address-title">Work</span>
-                            </div>
-                            <div class="address-actions">
-                                <button class="action-btn edit">Edit</button>
-                                <button class="action-btn delete">Delete</button>
-                            </div>
-                        </div>
-                        <div class="address-details">
-                            <p class="address-street">456 Office Plaza, Suite 200</p>
-                            <p class="address-city">New York, NY 10002</p>
-                            <p class="address-phone">+1 (555) 123-4567</p>
-                        </div>
-                    </div>
+                                <span class="address-icon"
+                                      th:switch="${address.addressType}">
+                                    <span th:case="${T(capyeats.address.model.AddressType).HOME}">
+                                        🏠
+                                    </span>
+                                    <span th:case="${T(capyeats.address.model.AddressType).WORK}">
+                                        💼
+                                    </span>
+                                    <span th:case="*">📍</span>
+                                </span>
 
-                    <div class="address-item">
-                        <div class="address-header">
-                            <div class="address-label">
-                                <span class="address-icon">📍</span>
-                                <span class="address-title">Other</span>
+                                <span class="address-title"
+                                      th:text="${address.label}">
+                                </span>
                             </div>
                             <div class="address-actions">
-                                <button class="action-btn edit">Edit</button>
-                                <button class="action-btn delete">Delete</button>
+                                <a class="action-btn edit"
+                                   th:href="@{/profile/addresses/{id}/edit(id=${address.id})}"
+                                   th:attr="aria-label=|Edit ${address.label} address|">
+                                    Edit
+                                </a>
+                                <form th:action="@{/profile/addresses/{id}/delete(id=${address.id})}"
+                                      method="post"
+                                      onsubmit="return confirm('Delete this saved address? This cannot be undone.');">
+                                    <button class="action-btn delete" type="submit"
+                                            th:attr="aria-label=|Delete ${address.label} address|">
+                                        Delete
+                                    </button>
+                                </form>
                             </div>
                         </div>
+
                         <div class="address-details">
-                            <p class="address-street">789 Park Avenue</p>
-                            <p class="address-city">Brooklyn, NY 11201</p>
-                            <p class="address-phone">+1 (555) 123-4567</p>
+                            <p class="address-street">
+                                <span th:text="|${address.street} ${address.streetNumber}|">
+                                </span>
+                                <span th:if="${!#strings.isEmpty(address.apartment)}"
+                                      th:text="|, Apt ${address.apartment}|">
+                                </span>
+                            </p>
+
+                            <p class="address-city"
+                               th:text="|${address.city}, ${address.postalCode}|">
+                            </p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
