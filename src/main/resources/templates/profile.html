@@ -35,25 +35,25 @@
                         <div class="info-item">
                             <label>Full Name</label>
                             <div class="info-value" id="name-display" th:text="${user.fullName != null ? user.fullName : 'None'}">None</div>
-                            <input type="text" class="info-input hidden" id="name-input" value="John Doe">
+                            <input type="text" class="info-input hidden" id="name-input" th:value="${user.fullName != null ? user.fullName : ''}">
                         </div>
 
                         <div class="info-item">
                             <label>Email Address</label>
                             <div class="info-value" id="email-display" th:text="${user.email}"></div>
-                            <input type="email" class="info-input hidden" id="email-input" value="john.doe@example.com">
+                            <input type="email" class="info-input hidden" id="email-input" th:value="${user.email}">
                         </div>
 
                         <div class="info-item">
                             <label>Phone Number</label>
                             <div class="info-value" id="phone-display" th:text="${user.phoneNumber != null ? user.phoneNumber : 'None'}"></div>
-                            <input type="tel" class="info-input hidden" id="phone-input" value="+1 (555) 123-4567">
+                            <input type="tel" class="info-input hidden" id="phone-input" th:value="${user.phoneNumber != null ? user.phoneNumber : ''}">
                         </div>
 
                         <div class="info-item">
                             <label>Username</label>
                             <div class="info-value" id="username-display" th:text="${user.username}"></div>
-                            <input type="text" class="info-input hidden" id="username-input" value="johndoe">
+                            <input type="text" class="info-input hidden" id="username-input" th:value="${user.username}">
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
                     <div class="stat-card">
                         <div class="stat-icon">⭐</div>
                         <div class="stat-info">
-                            <div class="stat-value" th:text="${totalReviews}">8</div>
+                            <div class="stat-value" th:text="${totalReviews}"></div>
                             <div class="stat-label">Reviews Written</div>
                         </div>
                     </div>
@@ -91,17 +91,24 @@
                 <div class="section-card">
                     <div class="section-header">
                         <h2>Saved Addresses</h2>
-                        <button class="btn-add">+ Add New</button>
+                        <a class="btn-add" th:href="@{/profile/addresses}">+ Add New</a>
                     </div>
                     <div class="address-grid">
-                        <div class="address-card">
-                            <div class="address-type">🏠 Home</div>
-                            <div class="address-text">123 Main Street, Apt 4B<br>New York, NY 10001</div>
-                            <button class="link-btn">Edit</button>
-                        </div>
-                        <div class="address-card">
-                            <div class="address-type">💼 Work</div>
-                            <div class="address-text">456 Office Plaza, Suite 200<br>New York, NY 10002</div>
+                        <div class="address-card" th:each="address : ${user.addresses}">
+                            <div class="address-type">
+                                <span th:switch="${address.addressType}">
+                                    <span th:case="${T(capyeats.address.model.AddressType).HOME}">🏠</span>
+                                    <span th:case="${T(capyeats.address.model.AddressType).WORK}">💼</span>
+                                    <span th:case="*">📍</span>
+                                </span>
+                                <span th:text="${address.label}"></span>
+                            </div>
+                            <div class="address-text">
+                                <span th:text="${address.street}"></span>
+                                <span th:text="${address.streetNumber}"></span><br>
+                                <span th:text="${address.city}"></span>
+                                <span th:text="${address.postalCode}"></span>
+                            </div>
                             <button class="link-btn">Edit</button>
                         </div>
                     </div>

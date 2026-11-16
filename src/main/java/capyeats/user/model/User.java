@@ -1,5 +1,6 @@
 package capyeats.user.model;
 
+import capyeats.address.model.Address;
 import capyeats.common.BaseEntity;
 import capyeats.order.model.Order;
 import jakarta.persistence.*;
@@ -36,14 +37,12 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private boolean active;
 
-    //location :D
-    @Column
-    private Double latitude;
-
-    @Column
-    private Double longitude;
 
     @OneToMany(mappedBy="user", fetch = FetchType.EAGER)
     @OrderBy("createdAt")
     private Set<Order> orders = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    @OrderBy("createdAt")
+    private Set<Address> addresses = new HashSet<>();
 }

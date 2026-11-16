@@ -23,7 +23,6 @@ public class Kitchen extends BaseEntity {
     //location :D
     @Column
     private Double latitude;
-
     @Column
     private Double longitude;
 
