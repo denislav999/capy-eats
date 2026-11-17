@@ -3,6 +3,7 @@ package capyeats.kitchen.model;
 import capyeats.common.BaseEntity;
 import capyeats.menu.model.MenuItem;
 import capyeats.order.model.Order;
+import capyeats.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,4 +40,8 @@ public class Kitchen extends BaseEntity {
 
     @OneToMany(mappedBy="kitchen")
     private List<Order> orders;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "owner_id", nullable = false, unique = true)
+    private User owner;
 }

@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByUsername(String username);
     Set<User> findAllByRole(UserRole role);
+
+    boolean existsByEmailIgnoreCase(String email);
 }

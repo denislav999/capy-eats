@@ -1,7 +1,10 @@
 package capyeats.web;
 
+import capyeats.kitchen.service.KitchenService;
 import capyeats.user.model.User;
+import capyeats.user.model.UserRole;
 import capyeats.user.service.UserService;
+import capyeats.web.dto.KitchenOwnerRequest;
 import capyeats.web.dto.LoginRequest;
 import capyeats.web.dto.RegisterUserRequest;
 import jakarta.servlet.http.HttpSession;
@@ -19,10 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SignInController {
 
     private final UserService userService;
+    private final KitchenService kitchenService;
 
     @Autowired
-    public SignInController(UserService userService) {
+    public SignInController(UserService userService, KitchenService kitchenService) {
         this.userService = userService;
+        this.kitchenService = kitchenService;
     }
      
     @GetMapping("/login")
@@ -64,17 +69,47 @@ public class SignInController {
         if (userService.userExists(registerUserRequest.getUsername())) {
             bindingResult.rejectValue("username", "error.userExists", "Username already exists");
         }
+
+        if (userService.emailExists(registerUserRequest.getEmail())) {
+            bindingResult.rejectValue("email", "error.emailExists", "Email already exists");
+        }
+
         if (bindingResult.hasErrors()) {
             return "signup";
         }
-        userService.register(registerUserRequest);
+
+
+        userService.register(registerUserRequest, UserRole.USER);
         redirectAttributes.addFlashAttribute("message", "Registration Successful");
         return "redirect:/login";
     }
 
     @GetMapping("/signup-kitchen")
-    public String signUpKitchen(){
+    public String signUpKitchenOwner(Model model){
+        model.addAttribute("kitchenOwnerRequest", new KitchenOwnerRequest());
         return "signup-kitchen";
+    }
+
+    @PostMapping("/signup-kitchen")
+    public String signUpKitchenOwner(@Valid @ModelAttribute("kitchenOwnerRequest") KitchenOwnerRequest kitchenOwnerRequest, BindingResult bindingResult) {
+        if (userService.userExists(kitchenOwnerRequest.getUsername())) {
+            bindingResult.rejectValue("username", "error.userExists", "Username already exists");
+        }
+
+        if (kitchenService.existsKitchen(kitchenOwnerRequest.getKitchenName())){
+            bindingResult.rejectValue("kitchenName", "error.kitchenExists", "Kitchen already exists");
+        }
+
+        if (userService.emailExists(kitchenOwnerRequest.getEmail())) {
+            bindingResult.rejectValue("email", "error.emailExists", "Email already exists");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "signup-kitchen";
+        }
+
+        kitchenService.registerKitchenOwner(kitchenOwnerRequest);
+        return "redirect:/login";
     }
 
     @GetMapping("/home")

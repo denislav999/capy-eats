@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -30,7 +29,11 @@ public class UserService {
         return this.userRepository.findByUsername(username).isPresent();
     }
 
-    public User register(RegisterUserRequest registerUserRequest) {
+    public boolean emailExists(String email) {
+        return this.userRepository.existsByEmailIgnoreCase(email);
+    }
+
+    public User register(RegisterUserRequest registerUserRequest, UserRole role) {
         Optional<User> optionalUser = userRepository.findByUsername(registerUserRequest.getUsername());
 
         if (optionalUser.isPresent()) {
@@ -43,7 +46,7 @@ public class UserService {
                 .email(registerUserRequest.getEmail())
                 .password(passwordEncoder.encode(registerUserRequest.getPassword()))
                 .address(null)
-                .role(UserRole.USER)
+                .role(role)
                 .phoneNumber(null)
                 .active(true)
                 .build();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,22 +21,42 @@
 <main class="signup-main">
     <div class="signup-container">
         <div class="signup-box">
-            <h1 class="signup-title">Become a kitchen partner</h1>
-            <p class="signup-subtitle">Submit your application to join capyEats</p>
+            <h1 class="signup-title">Register your kitchen</h1>
+            <p class="signup-subtitle">Create your owner account and submit your kitchen for admin approval.</p>
 
-            <form class="signup-form">
+            <form class="signup-form" th:action="@{/signup-kitchen}"
+                  method="post"
+                  th:object="${kitchenOwnerRequest}"
+                  novalidate>
+
                 <div class="form-group">
                     <label for="kitchen-name" class="form-label">Kitchen Name</label>
                     <input
                             type="text"
                             id="kitchen-name"
-                            name="username"
+                            th:field="*{kitchenName}"
                             class="form-input"
                             placeholder="Enter your kitchen name"
+                            maxlength="100"
                             required
                     >
-                    <!-- Added validation warning message -->
-                    <p class="validation-warning" id="kitchen-name-warning">Kitchen name validation message</p>
+                    <p class="validation-warning" th:errors="*{kitchenName}"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="owner-username" class="form-label">Owner Username</label>
+                    <input
+                            type="text"
+                            id="owner-username"
+                            th:field="*{username}"
+                            class="form-input"
+                            placeholder="Choose your login username"
+                            autocomplete="username"
+                            minlength="6"
+                            maxlength="26"
+                            required
+                    >
+                    <p class="validation-warning" th:errors="*{username}"></p>
                 </div>
 
                 <div class="form-group">
@@ -44,13 +64,14 @@
                     <input
                             type="email"
                             id="kitchen-email"
-                            name="email"
+                            th:field="*{email}"
                             class="form-input"
                             placeholder="Enter your business email"
+                            autocomplete="email"
+                            maxlength="40"
                             required
                     >
-                    <!-- Added validation warning message -->
-                    <p class="validation-warning" id="kitchen-email-warning">Email validation message</p>
+                    <p class="validation-warning" th:errors="*{email}"></p>
                 </div>
 
                 <div class="form-group">
@@ -61,37 +82,17 @@
                             name="password"
                             class="form-input"
                             placeholder="Create a password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            maxlength="18"
                             required
                     >
-                    <!-- Added validation warning message -->
-                    <p class="validation-warning" id="kitchen-password-warning">Password validation message</p>
+                    <p class="validation-warning" th:errors="*{password}"></p>
                 </div>
 
-                <div class="form-group">
-                    <label for="kitchen-documents" class="form-label">Business Documents</label>
-                    <div class="file-upload">
-                        <input
-                                type="file"
-                                id="kitchen-documents"
-                                name="documents"
-                                class="file-input"
-                                multiple
-                                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                                required
-                        >
-                        <label for="kitchen-documents" class="file-label">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 4.167v11.666M4.167 10h11.666" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                            <span>Upload documents for verification</span>
-                        </label>
-                    </div>
-                    <p class="file-hint">Required: Business license, food handler certificate, insurance</p>
-                    <!-- Added validation warning message for documents -->
-                    <p class="validation-warning" id="documents-warning">Document validation message</p>
-                </div>
+                <p class="file-hint">Your kitchen must be approved before customers can see it or place orders. Use your owner username to log in.</p>
 
-                <button type="submit" class="btn btn-primary btn-full">Request</button>
+                <button type="submit" class="btn btn-primary btn-full">Register your kitchen</button>
             </form>
 
             <p class="login-text">
@@ -101,18 +102,5 @@
     </div>
 </main>
 
-<script>
-    const fileInput = document.getElementById('kitchen-documents');
-    const fileLabel = document.querySelector('.file-label span');
-
-    fileInput.addEventListener('change', (e) => {
-        const files = e.target.files;
-        if (files.length > 0) {
-            fileLabel.textContent = files.length === 1 ? files[0].name : `${files.length} files selected`;
-        } else {
-            fileLabel.textContent = 'Upload documents for verification';
-        }
-    });
-</script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 package capyeats.user.model;
 
 public enum UserRole {
-    USER, ADMIN;
+    USER, ADMIN, KITCHEN_OWNER;
 }
