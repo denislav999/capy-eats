@@ -255,14 +255,9 @@
 
                         <div class="address-header">
                             <div class="address-label">
-                                <span class="address-icon"
-                                      th:switch="${address.addressType}">
-                                    <span th:case="${T(capyeats.address.model.AddressType).HOME}">
-                                        🏠
-                                    </span>
-                                    <span th:case="${T(capyeats.address.model.AddressType).WORK}">
-                                        💼
-                                    </span>
+                                <span class="address-icon" th:switch="${address.addressType?.name()}">
+                                    <span th:case="'HOME'">🏠</span>
+                                    <span th:case="'WORK'">💼</span>
                                     <span th:case="*">📍</span>
                                 </span>
 

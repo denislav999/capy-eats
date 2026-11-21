@@ -3,10 +3,12 @@ package capyeats.web;
 import capyeats.address.service.AddressService;
 import capyeats.order.service.OrderService;
 import capyeats.review.service.ReviewService;
+import capyeats.security.UserData;
 import capyeats.web.dto.AddressRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,11 +32,11 @@ public class ProfileController {
     }
 
     @GetMapping
-    public String profile(HttpSession session, Model model) {
+    public String profile(@AuthenticationPrincipal UserData userData, Model model) {
         model.addAttribute("activePage", "profile");
-        model.addAttribute("totalReviews", reviewService.getReviewsByUser((UUID)session.getAttribute("userId")).size());
-        model.addAttribute("totalOrders", orderService.getAllOrders((UUID)session.getAttribute("userId")));
-        model.addAttribute("totalSpend", orderService.getTotalPrice((UUID)session.getAttribute("userId")));
+        model.addAttribute("totalReviews", reviewService.getReviewsByUser(userData.getUserId()).size());
+        model.addAttribute("totalOrders", orderService.getAllOrders(userData.getUserId()));
+        model.addAttribute("totalSpend", orderService.getTotalPrice(userData.getUserId()));
         return "profile";
     }
 
@@ -49,7 +51,7 @@ public class ProfileController {
     @PostMapping("/addresses")
     public String addAddress(@Valid @ModelAttribute("addressRequest") AddressRequest request,
             BindingResult bindingResult,
-            HttpSession session,
+            @AuthenticationPrincipal UserData userData,
             Model model) {
 
         if (bindingResult.hasErrors()) {
@@ -57,7 +59,7 @@ public class ProfileController {
             return "addresses";
         }
 
-        UUID userId = (UUID) session.getAttribute("userId");
+        UUID userId = userData.getUserId();
 
         addressService.createAddress(userId, request);
 
@@ -67,10 +69,10 @@ public class ProfileController {
     @GetMapping("/addresses/{addressId}/edit")
     public String editAddress(
             @PathVariable("addressId") UUID addressId,
-            HttpSession session,
+            @AuthenticationPrincipal UserData userData,
             Model model) {
 
-        UUID userId = (UUID) session.getAttribute("userId");
+        UUID userId = userData.getUserId();
 
         AddressRequest request =
                 addressService.getAddressForEdit(userId, addressId);
@@ -88,10 +90,10 @@ public class ProfileController {
             @PathVariable("addressId") UUID addressId,
             @Valid @ModelAttribute("addressRequest") AddressRequest request,
             BindingResult bindingResult,
-            HttpSession session,
+            @AuthenticationPrincipal UserData userData,
             Model model) {
 
-        UUID userId = (UUID) session.getAttribute("userId");
+        UUID userId = userData.getUserId();
 
         if (bindingResult.hasErrors()) {
             addressService.getAddressForEdit(userId, addressId);
@@ -110,9 +112,9 @@ public class ProfileController {
     @PostMapping("/addresses/{addressId}/delete")
     public String deleteAddress(
             @PathVariable("addressId") UUID addressId,
-            HttpSession session) {
+            @AuthenticationPrincipal UserData userData) {
 
-        UUID userId = (UUID) session.getAttribute("userId");
+        UUID userId = userData.getUserId();
         addressService.deleteAddress(userId, addressId);
 
         return "redirect:/profile/addresses";

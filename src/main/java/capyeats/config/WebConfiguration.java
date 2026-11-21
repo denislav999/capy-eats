@@ -1,22 +1,38 @@
 package capyeats.config;
 
 
-import capyeats.security.UserSessionInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableMethodSecurity
 public class WebConfiguration implements WebMvcConfigurer {
-    private final UserSessionInterceptor interceptor;
 
-    @Autowired
-    public WebConfiguration(UserSessionInterceptor interceptor) {
-        this.interceptor = interceptor;
-    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests( matcher -> matcher
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers("/","/login","/signup","/signup-kitchen","/terms","/support","/resources"
+                , "/privacy","/press", "/partner", "/about", "/cookies", "/careers", "/img/**").permitAll()
+                .anyRequest().authenticated()
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login?error=true")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                        .logoutSuccessUrl("/")
+                );
 
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(this.interceptor).addPathPatterns("/**").excludePathPatterns("/css/**", "/img/**");
+        return httpSecurity.build();
     }
 }

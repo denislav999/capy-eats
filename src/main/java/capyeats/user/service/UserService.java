@@ -1,11 +1,15 @@
 package capyeats.user.service;
 
+import capyeats.security.UserData;
 import capyeats.user.model.User;
 import capyeats.user.model.UserRole;
 import capyeats.user.repository.UserRepository;
 import capyeats.web.dto.LoginRequest;
 import capyeats.web.dto.RegisterUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private static final String DEFAULT_PROFILE_PICTURE = "https://avatars.githubusercontent.com/u/237266975?v=4";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -56,16 +60,6 @@ public class UserService {
     }
 
 
-    public User login (LoginRequest loginRequest) {
-        Optional<User> optionalUser = Optional.of(userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new RuntimeException("Invalid username or password")));
-
-        if (!passwordEncoder.matches(loginRequest.getPassword(), optionalUser.get().getPassword())) {
-            throw new RuntimeException(("Invalid username or password"));
-        }
-
-        return optionalUser.get();
-    }
-
     public Set<User> findAllByRole(UserRole role) {
         return userRepository.findAllByRole(role);
     }
@@ -74,4 +68,10 @@ public class UserService {
         return this.userRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new UserData(user.getId(),username, user.getPassword(),user.getRole(), user.isActive());
+    }
 }

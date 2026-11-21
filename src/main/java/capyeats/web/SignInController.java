@@ -1,13 +1,11 @@
 package capyeats.web;
 
 import capyeats.kitchen.service.KitchenService;
-import capyeats.user.model.User;
 import capyeats.user.model.UserRole;
 import capyeats.user.service.UserService;
 import capyeats.web.dto.KitchenOwnerRequest;
 import capyeats.web.dto.LoginRequest;
 import capyeats.web.dto.RegisterUserRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,27 +34,6 @@ public class SignInController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@Valid LoginRequest loginRequest, BindingResult bindingResult, HttpSession session, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "login";
-        }
-        try {
-            User user = userService.login(loginRequest);
-            session.setAttribute("userId", user.getId());
-            return "redirect:/home";
-
-        } catch (RuntimeException e) {
-            model.addAttribute("error", e.getMessage());
-            return "login";
-        }
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
     @GetMapping("/signup")
     public String signUp(Model model){
         model.addAttribute("registerRequest", new RegisterUserRequest());
