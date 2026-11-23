@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cart · capyEats</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/customer-shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments/fragments :: customer-header(true)}"></header>
+
+<main class="container shop-page">
+    <a class="shop-back" th:href="@{/home}">← All kitchens</a>
+    <h1>Your cart</h1>
+
+    <p class="shop-message shop-message-error" th:if="${cartError}" th:text="${cartError}" role="alert"></p>
+    <p class="shop-empty" th:if="${#lists.isEmpty(cartItems)}">Your cart is empty.</p>
+    <div class="shop-section" th:unless="${#lists.isEmpty(cartItems)}">
+        <ul class="shop-items" aria-label="Cart items">
+            <li class="shop-item" th:each="item : ${cartItems}">
+                <div>
+                    <h2 th:text="${item.menuItem.name}">Dish name</h2>
+                    <p class="shop-price" th:text="|${item.quantity} × €${#numbers.formatDecimal(item.menuItem.price, 1, 2)}|"></p>
+                </div>
+                <div class="shop-cart-actions">
+                    <strong th:text="|€${#numbers.formatDecimal(item.totalPrice, 1, 2)}|"></strong>
+                    <form th:action="@{/cart/items/{itemId}/remove(itemId=${item.menuItem.id})}" method="post">
+                        <button class="btn btn-text" type="submit" th:aria-label="|Remove ${item.menuItem.name} from cart|">Remove</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+        <dl class="shop-total">
+            <dt>Subtotal</dt>
+            <dd th:text="|€${#numbers.formatDecimal(totalPrice, 1, 2)}|"></dd>
+        </dl>
+        <a class="btn shop-add shop-checkout-action" th:href="@{/checkout}">Checkout</a>
+    </div>
+</main>
+</body>
+</html>

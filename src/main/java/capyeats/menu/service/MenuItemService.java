@@ -28,6 +28,10 @@ public class MenuItemService {
         return this.menuItemRepository.findAllByKitchenId_OrderByCreatedAtAsc(kitchenId);
     }
 
+    public List<MenuItem> getAvailableMenuItems(UUID kitchenId) {
+        return menuItemRepository.findAllByKitchen_IdAndIsAvailableTrueOrderByCreatedAtAsc(kitchenId);
+    }
+
     public void createMenuItem(Kitchen kitchen, MenuItemRequest request) {
         MenuItem item = MenuItem.builder()
                 .name(request.getName().trim())

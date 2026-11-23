@@ -13,6 +13,20 @@
     </div>
 </header>
 
+<header class="app-header" th:fragment="customer-header(cartPage)">
+    <div class="container">
+        <div class="header-content">
+            <a class="logo" th:href="@{/home}">capyEats</a>
+            <nav class="header-actions" aria-label="Customer navigation">
+                <a class="btn btn-text" th:href="@{/profile/orders}">Orders</a>
+                <a class="btn btn-text" th:href="@{/cart}"
+                   th:attr="aria-current=${cartPage ? 'page' : null}">Cart</a>
+                <a class="btn btn-text" th:href="@{/profile}">Profile</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
 <footer class="footer" th:fragment="footer">
     <div class="container">
         <div class="footer-content">

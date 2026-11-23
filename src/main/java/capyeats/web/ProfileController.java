@@ -121,8 +121,9 @@ public class ProfileController {
     }
 
     @GetMapping("/orders")
-    public String orders(Model model) {
+    public String orders(Model model,@AuthenticationPrincipal UserData userData) {
         model.addAttribute("activePage", "orders");
+        model.addAttribute("orders", orderService.getOrdersByUserId(userData.getUserId()));
         return "orders";
     }
     @GetMapping("/payments")

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Checkout · capyEats</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/customer-shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments/fragments :: customer-header(false)}"></header>
+
+<main class="container shop-page">
+    <a class="shop-back" th:href="@{/cart}">← Back to cart</a>
+    <h1>Checkout</h1>
+
+    <p class="shop-message shop-message-error" th:if="${checkoutError}" th:text="${checkoutError}" role="alert"></p>
+
+    <form class="shop-checkout-grid" th:if="${quote != null}" th:action="@{/checkout}" method="post">
+        <input type="hidden" name="quotedTotal" th:value="${quote.total}">
+        <div class="shop-checkout-panel">
+            <fieldset class="shop-addresses" th:unless="${#lists.isEmpty(addresses)}">
+                <legend>Delivery address</legend>
+                <label class="shop-address" th:each="address, stat : ${addresses}">
+                    <input type="radio" name="addressId" required th:value="${address.id}"
+                           th:checked="${selectedAddressId != null ? address.id.equals(selectedAddressId) : stat.first}">
+                    <span>
+                        <strong th:text="${address.label}">Home</strong>
+                        <span th:text="|${address.street} ${address.streetNumber}, ${address.postalCode} ${address.city}|"></span>
+                        <span th:if="${!#strings.isEmpty(address.apartment)}" th:text="|Apt ${address.apartment}|"></span>
+                    </span>
+                </label>
+            </fieldset>
+            <div th:if="${#lists.isEmpty(addresses)}">
+                <h2>Delivery address</h2>
+                <p class="shop-empty">Add a saved address to place your order.</p>
+                <a class="shop-back" th:href="@{/profile/addresses}">Manage addresses</a>
+            </div>
+
+            <section class="shop-checkout-payment" aria-labelledby="checkout-payment">
+                <h2 id="checkout-payment">Payment</h2>
+                <p>Cash on delivery</p>
+            </section>
+        </div>
+
+        <section class="shop-checkout-panel" aria-labelledby="checkout-summary">
+            <h2 id="checkout-summary">Order summary</h2>
+            <p class="shop-checkout-kitchen" th:text="${quote.kitchen.name}">Kitchen name</p>
+            <ul class="shop-summary-list">
+                <li th:each="item : ${quote.items}">
+                    <span th:text="|${item.quantity} × ${item.menuItem.name}|"></span>
+                    <strong th:text="|€${#numbers.formatDecimal(item.totalPrice, 1, 2)}|"></strong>
+                </li>
+            </ul>
+            <dl class="shop-summary-breakdown">
+                <div>
+                    <dt>Subtotal</dt>
+                    <dd th:text="|€${#numbers.formatDecimal(quote.subtotal, 1, 2)}|"></dd>
+                </div>
+                <div>
+                    <dt>Delivery fee</dt>
+                    <dd th:text="|€${#numbers.formatDecimal(quote.deliveryFee, 1, 2)}|"></dd>
+                </div>
+                <div class="shop-total">
+                    <dt>Total</dt>
+                    <dd th:text="|€${#numbers.formatDecimal(quote.total, 1, 2)}|"></dd>
+                </div>
+            </dl>
+            <button class="btn shop-add shop-checkout-action" type="submit"
+                    th:unless="${#lists.isEmpty(addresses)}">Place order</button>
+        </section>
+    </form>
+</main>
+</body>
+</html>

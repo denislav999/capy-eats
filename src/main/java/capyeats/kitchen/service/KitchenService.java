@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -56,6 +57,11 @@ public class KitchenService {
         return kitchenRepository.findByOwner_Id(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Kitchen not found"));
     }
 
+    public Kitchen getKitchenById(UUID kitchenId) {
+        return kitchenRepository.findById(kitchenId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Kitchen not found"));
+    }
+
     public boolean existsKitchenName(String kitchenName, UUID ownerId) {
         Optional<Kitchen> kitchen = kitchenRepository.findByName(kitchenName);
         if (kitchen.isPresent()){
@@ -73,5 +79,9 @@ public class KitchenService {
         kitchen.setDeliveryTime(request.getDeliveryTime());
         kitchen.setDeliveryFee(request.getDeliveryFee());
         kitchen.setOpen(request.getOpen());
+    }
+
+    public List<Kitchen> getNewestKitchens() {
+        return kitchenRepository.findTop6ByOrderByCreatedAtDesc();
     }
 }

@@ -4,6 +4,7 @@ import capyeats.kitchen.model.Kitchen;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,4 +12,5 @@ import java.util.UUID;
 public interface KitchenRepository extends JpaRepository<Kitchen, UUID> {
     Optional<Kitchen> findByName(String kitchenName);
     Optional<Kitchen> findByOwner_Id(UUID userId);
+    List<Kitchen> findTop6ByOrderByCreatedAtDesc();
 }

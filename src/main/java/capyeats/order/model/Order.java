@@ -29,6 +29,16 @@ public class Order extends BaseEntity {
 
     @Column(nullable = false)
     private BigDecimal totalPrice;
+
+    @Column(precision = 6, scale = 2)
+    private BigDecimal deliveryFee;
+
+    @Column
+    private String deliveryAddress;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

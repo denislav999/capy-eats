@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+
     @GetMapping("/")
     public String home(@AuthenticationPrincipal UserData userData) {
         if (userData == null) {
@@ -15,6 +16,7 @@ public class HomeController {
         }
         return userData.getRole() == UserRole.KITCHEN_OWNER ? "redirect:/kitchen-overview" : "redirect:/home";
     }
+
     @GetMapping("/about")
     public String about() {
         return "about";

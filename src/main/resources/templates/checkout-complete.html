@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order placed · capyEats</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/customer-shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments/fragments :: customer-header(false)}"></header>
+
+<main class="container shop-page">
+    <section class="shop-checkout-panel shop-receipt" aria-labelledby="order-placed-title">
+        <h1 id="order-placed-title">Order placed</h1>
+        <p>Pay in cash when your order arrives.</p>
+        <p class="shop-receipt-number" th:if="${orderId != null}" th:text="|Order ${orderId}|"></p>
+        <div class="shop-receipt-actions">
+            <a class="btn shop-add" th:href="@{/profile/orders}">My orders</a>
+            <a class="btn btn-text" th:href="@{/home}">Back to kitchens</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>

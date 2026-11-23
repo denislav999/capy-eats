@@ -26,90 +26,30 @@
                 </div>
 
                 <div class="orders-list">
-                    <div class="order-item">
+                    <div class="order-item" th:each="order : ${orders}">
                         <div class="order-header">
                             <div class="order-info">
                                 <div class="order-restaurant">
-                                    <img src="/placeholder.svg?height=50&width=50" alt="Restaurant">
+                                    <img th:src="@{/img/default-kitchen-avatar.png}" height=50 width=50>
                                     <div>
-                                        <div class="order-name">Burger Haven</div>
-                                        <div class="order-date">Dec 15, 2024 • 6:30 PM</div>
+                                        <div class="order-name" th:text="${order.kitchen.name}"></div>
+                                        <div class="order-date" th:text="${#temporals.format(order.createdAt, 'MMM dd, yyyy • HH:mm')}"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="order-status delivered">Delivered</div>
+                            <div th:if="${order.orderStatus.name() == 'COMPLETED'}" class="order-status delivered">Completed</div>
+                            <div th:if="${order.orderStatus.name() == 'CANCELED'}" class="order-status cancelled">Canceled</div>
+                            <div th:if="${order.orderStatus.name() == 'PREPARING'}" class="order-status delivered">Preparing</div>
+                            <div th:if="${order.orderStatus.name() == 'CREATED'}" class="order-status delivered">Order placed</div>
                         </div>
                         <div class="order-items">
-                            <p>2x Classic Burger, 1x Fries, 1x Coke</p>
+                            <p th:each="item : ${order.orderItems}"
+                               th:text="|${item.quantity} × ${item.name}|"></p>
                         </div>
                         <div class="order-footer">
-                            <div class="order-total">Total: $28.50</div>
-                            <button class="reorder-btn">Reorder</button>
-                        </div>
-                    </div>
-
-                    <div class="order-item">
-                        <div class="order-header">
-                            <div class="order-info">
-                                <div class="order-restaurant">
-                                    <img src="/placeholder.svg?height=50&width=50" alt="Restaurant">
-                                    <div>
-                                        <div class="order-name">Pizza Palace</div>
-                                        <div class="order-date">Dec 12, 2024 • 8:15 PM</div>
-                                    </div>
-                                </div>
+                            <div class="order-total"
+                                 th:text="|Total: €${#numbers.formatDecimal(order.totalPrice, 1, 2)}|">
                             </div>
-                            <div class="order-status delivered">Delivered</div>
-                        </div>
-                        <div class="order-items">
-                            <p>1x Margherita Pizza (Large), 1x Garlic Bread</p>
-                        </div>
-                        <div class="order-footer">
-                            <div class="order-total">Total: $24.99</div>
-                            <button class="reorder-btn">Reorder</button>
-                        </div>
-                    </div>
-
-                    <div class="order-item">
-                        <div class="order-header">
-                            <div class="order-info">
-                                <div class="order-restaurant">
-                                    <img src="/placeholder.svg?height=50&width=50" alt="Restaurant">
-                                    <div>
-                                        <div class="order-name">Sushi Express</div>
-                                        <div class="order-date">Dec 10, 2024 • 7:45 PM</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="order-status cancelled">Cancelled</div>
-                        </div>
-                        <div class="order-items">
-                            <p>1x California Roll, 1x Salmon Nigiri Set</p>
-                        </div>
-                        <div class="order-footer">
-                            <div class="order-total">Total: $32.00</div>
-                            <button class="reorder-btn">Reorder</button>
-                        </div>
-                    </div>
-
-                    <div class="order-item">
-                        <div class="order-header">
-                            <div class="order-info">
-                                <div class="order-restaurant">
-                                    <img src="/placeholder.svg?height=50&width=50" alt="Restaurant">
-                                    <div>
-                                        <div class="order-name">Taco Fiesta</div>
-                                        <div class="order-date">Dec 8, 2024 • 1:20 PM</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="order-status delivered">Delivered</div>
-                        </div>
-                        <div class="order-items">
-                            <p>3x Beef Tacos, 1x Nachos, 2x Margarita</p>
-                        </div>
-                        <div class="order-footer">
-                            <div class="order-total">Total: $41.20</div>
                             <button class="reorder-btn">Reorder</button>
                         </div>
                     </div>

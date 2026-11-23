@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="|${kitchen.name} · capyEats|">Kitchen · capyEats</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/customer-shop.css}">
+</head>
+<body>
+<header th:replace="~{fragments/fragments :: customer-header(false)}"></header>
+
+<main class="container shop-page">
+    <a class="shop-back" th:href="@{/home}">← All kitchens</a>
+
+    <section class="shop-kitchen" aria-labelledby="kitchen-name">
+        <img class="shop-kitchen-image" th:src="@{/img/default-kitchen-avatar.png}" width="192" height="192" alt="">
+        <div>
+            <p class="shop-status" th:classappend="${kitchen.open ? 'shop-status-open' : ''}"
+               th:text="${kitchen.open ? 'Open for orders' : 'Orders paused'}"></p>
+            <h1 id="kitchen-name" th:text="${kitchen.name}">Kitchen name</h1>
+            <p class="shop-description" th:if="${!#strings.isEmpty(kitchen.description)}"
+               th:text="${kitchen.description}"></p>
+            <dl class="shop-delivery">
+                <div th:if="${kitchen.deliveryTime != null}">
+                    <dt>Estimated delivery</dt>
+                    <dd th:text="|${kitchen.deliveryTime} min|"></dd>
+                </div>
+                <div th:if="${kitchen.deliveryFee != null}">
+                    <dt>Delivery fee</dt>
+                    <dd th:text="${kitchen.deliveryFee.signum() == 0 ? 'Free' : '€' + #numbers.formatDecimal(kitchen.deliveryFee, 1, 2)}"></dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <section class="shop-section" aria-labelledby="menu-title">
+        <h2 class="section-title" id="menu-title">Menu</h2>
+        <p class="shop-message" th:if="${cartMessage}" th:text="${cartMessage}" role="status"></p>
+        <p class="shop-message shop-message-error" th:if="${cartError}" th:text="${cartError}" role="alert"></p>
+        <p class="shop-empty" th:if="${#lists.isEmpty(menuItems)}">No dishes are available right now.</p>
+        <ul class="shop-items" th:unless="${#lists.isEmpty(menuItems)}">
+            <li class="shop-item" th:each="menuItem : ${menuItems}">
+                <div>
+                    <h3 th:text="${menuItem.name}">Dish name</h3>
+                    <p class="shop-price" th:text="|€${#numbers.formatDecimal(menuItem.price, 1, 2)}|"></p>
+                </div>
+                <form th:if="${kitchen.open}" th:action="@{/kitchens/{kitchenId}/items/{itemId}/cart(kitchenId=${kitchen.id}, itemId=${menuItem.id})}"
+                      method="post">
+                    <button class="btn shop-add" type="submit" th:aria-label="|Add ${menuItem.name} to cart|">Add to cart</button>
+                </form>
+            </li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>

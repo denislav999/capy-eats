@@ -8,17 +8,7 @@
     <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
-<header class="app-header">
-    <div class="container">
-        <div class="header-content">
-            <a href="/home" class="logo">capyEats</a>
-            <div class="header-actions">
-                <a class="btn btn-text" href="/profile/orders">Orders</a>
-                <a class="btn btn-text" href="/profile">Profile</a>
-            </div>
-        </div>
-    </div>
-</header>
+<header th:replace="~{fragments/fragments :: customer-header(false)}"></header>
 
 <main class="app-main">
     <!-- Hero Search Section -->
@@ -83,125 +73,22 @@
         <section class="kitchens-section">
             <h2 class="section-title">Featured ghost kitchens</h2>
             <div class="kitchens-grid">
-                <div class="kitchen-card">
+                <a class="kitchen-card kitchen-card-link" th:each="kitchen : ${newestKitchens}"
+                   th:href="@{/kitchens/{id}(id=${kitchen.id})}">
                     <div class="kitchen-image">
-                        <img src="/placeholder.svg?height=200&width=350" alt="Burger Lab">
-                        <span class="delivery-time">20-30 min</span>
+                        <img th:src="@{/img/default-kitchen-avatar.png}" width="350" height="200" alt="">
+                        <span class="delivery-time" th:if="${kitchen.deliveryTime != null}"
+                              th:text="|${kitchen.deliveryTime} min|">30 min</span>
                     </div>
                     <div class="kitchen-info">
-                        <h3 class="kitchen-name">Burger Lab</h3>
-                        <div class="kitchen-meta">
-                            <div class="rating">
-                                <span class="star">★</span>
-                                <span>4.8</span>
-                            </div>
-                            <span class="cuisine-type">Burgers • American</span>
-                        </div>
+                        <h3 class="kitchen-name" th:text="${kitchen.name}">Kitchen name</h3>
                         <div class="kitchen-tags">
-                            <span class="tag">Free delivery</span>
+                            <span class="tag" th:text="${kitchen.open ? 'Open for orders' : 'Paused'}"></span>
+                            <span class="tag" th:if="${kitchen.deliveryFee != null}"
+                                  th:text="${kitchen.deliveryFee.signum() == 0 ? 'Free delivery' : '€' + #numbers.formatDecimal(kitchen.deliveryFee, 1, 2) + ' delivery'}"></span>
                         </div>
                     </div>
-                </div>
-
-                <div class="kitchen-card">
-                    <div class="kitchen-image">
-                        <img src="/placeholder.svg?height=200&width=350" alt="Pizza Perfection">
-                        <span class="delivery-time">25-35 min</span>
-                    </div>
-                    <div class="kitchen-info">
-                        <h3 class="kitchen-name">Pizza Perfection</h3>
-                        <div class="kitchen-meta">
-                            <div class="rating">
-                                <span class="star">★</span>
-                                <span>4.9</span>
-                            </div>
-                            <span class="cuisine-type">Pizza • Italian</span>
-                        </div>
-                        <div class="kitchen-tags">
-                            <span class="tag">Popular</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kitchen-card">
-                    <div class="kitchen-image">
-                        <img src="/placeholder.svg?height=200&width=350" alt="Sushi Express">
-                        <span class="delivery-time">30-40 min</span>
-                    </div>
-                    <div class="kitchen-info">
-                        <h3 class="kitchen-name">Sushi Express</h3>
-                        <div class="kitchen-meta">
-                            <div class="rating">
-                                <span class="star">★</span>
-                                <span>4.7</span>
-                            </div>
-                            <span class="cuisine-type">Sushi • Japanese</span>
-                        </div>
-                        <div class="kitchen-tags">
-                            <span class="tag">New</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kitchen-card">
-                    <div class="kitchen-image">
-                        <img src="/placeholder.svg?height=200&width=350" alt="Green Bowl">
-                        <span class="delivery-time">15-25 min</span>
-                    </div>
-                    <div class="kitchen-info">
-                        <h3 class="kitchen-name">Green Bowl</h3>
-                        <div class="kitchen-meta">
-                            <div class="rating">
-                                <span class="star">★</span>
-                                <span>4.9</span>
-                            </div>
-                            <span class="cuisine-type">Healthy • Salads</span>
-                        </div>
-                        <div class="kitchen-tags">
-                            <span class="tag">Fastest</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kitchen-card">
-                    <div class="kitchen-image">
-                        <img src="/placeholder.svg?height=200&width=350" alt="Taco Street">
-                        <span class="delivery-time">20-30 min</span>
-                    </div>
-                    <div class="kitchen-info">
-                        <h3 class="kitchen-name">Taco Street</h3>
-                        <div class="kitchen-meta">
-                            <div class="rating">
-                                <span class="star">★</span>
-                                <span>4.8</span>
-                            </div>
-                            <span class="cuisine-type">Mexican • Tacos</span>
-                        </div>
-                        <div class="kitchen-tags">
-                            <span class="tag">Trending</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kitchen-card">
-                    <div class="kitchen-image">
-                        <img src="/placeholder.svg?height=200&width=350" alt="Pasta House">
-                        <span class="delivery-time">25-35 min</span>
-                    </div>
-                    <div class="kitchen-info">
-                        <h3 class="kitchen-name">Pasta House</h3>
-                        <div class="kitchen-meta">
-                            <div class="rating">
-                                <span class="star">★</span>
-                                <span>4.7</span>
-                            </div>
-                            <span class="cuisine-type">Pasta • Italian</span>
-                        </div>
-                        <div class="kitchen-tags">
-                            <span class="tag">Free delivery</span>
-                        </div>
-                    </div>
-                </div>
+                </a>
             </div>
         </section>
 

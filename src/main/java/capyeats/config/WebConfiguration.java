@@ -22,7 +22,8 @@ public class WebConfiguration implements WebMvcConfigurer {
                 , "/privacy","/press", "/partner", "/about", "/cookies", "/careers", "/img/**").permitAll()
                 .requestMatchers("/kitchen-overview", "/kitchen-menu", "/kitchen-menu/**", "/kitchen-orders",
                         "/kitchen-profile", "/kitchen-settings").hasRole("KITCHEN_OWNER")
-                .requestMatchers("/home", "/profile/addresses", "/profile/addresses/**",
+                .requestMatchers("/home", "/kitchens/**", "/cart", "/cart/**", "/checkout", "/checkout/**",
+                        "/profile/addresses", "/profile/addresses/**",
                         "/profile/payments", "/profile/orders", "/profile/settings").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 )
