@@ -20,7 +20,7 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers("/","/login","/signup","/signup-kitchen","/terms","/support","/resources"
                 , "/privacy","/press", "/partner", "/about", "/cookies", "/careers", "/img/**").permitAll()
-                .requestMatchers("/kitchen-overview", "/kitchen-menu", "/kitchen-orders",
+                .requestMatchers("/kitchen-overview", "/kitchen-menu", "/kitchen-menu/**", "/kitchen-orders",
                         "/kitchen-profile", "/kitchen-settings").hasRole("KITCHEN_OWNER")
                 .requestMatchers("/home", "/profile/addresses", "/profile/addresses/**",
                         "/profile/payments", "/profile/orders", "/profile/settings").hasAnyRole("USER", "ADMIN")

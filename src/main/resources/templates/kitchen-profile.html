@@ -3,40 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kitchen profile · Sofia Bowls · capyEats</title>
+    <title th:text="Kitchen profile · ${kitchen.name} · capyEats"></title>
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/owner.css">
 </head>
 <body>
-    <a class="skip-link" href="#workspace">Skip to workspace</a>
-    <div th:replace="~{fragments/fragments :: kitchen-header('profile')}"> </div>
-    <main id="workspace" class="owner-shell" tabindex="-1">
-        <header class="profile-cover">
-            <div class="profile-intro">
-                <p class="eyebrow">Kitchen profile</p>
-                <h1>Sofia Bowls</h1>
-                <p>Rice bowls with charred chicken, crisp falafel and seasonal vegetables, delivered across Sofia.</p>
-                <a class="dark-button" href="kitchen-menu.html">View menu <span aria-hidden="true">→</span></a>
-            </div>
-            <img src="kitchen-cover.jpg" width="1200" height="800" alt="The kitchen’s chicken and rice bowl with cucumber and shredded cabbage">
-        </header>
-        <div class="profile-grid">
-            <section class="paper info-card" aria-labelledby="service-title">
-                <div class="paper-head"><h2 id="service-title">Delivery details</h2><a class="text-link" href="kitchen-settings.html">Settings →</a></div>
-                <dl class="detail-list">
-                    <div><dt>Kitchen status</dt><dd><span class="badge available">Open for orders</span></dd></div>
-                    <div><dt>Preparation time</dt><dd>20 minutes</dd></div>
-                    <div><dt>Estimated delivery</dt><dd>25–40 minutes</dd></div>
-                    <div><dt>Delivery fee</dt><dd>€2.50</dd></div>
-                </dl>
-            </section>
-            <section class="paper info-card" aria-labelledby="owner-title">
-                <div class="paper-head"><h2 id="owner-title">Kitchen owner</h2></div>
-                <div class="owner-identity"><span aria-hidden="true">MP</span><div><h3>Mira Petrova</h3><p>mira@example.com</p></div></div>
-                <a class="secondary" href="../profile">My account <span aria-hidden="true">→</span></a>
-            </section>
+<a class="skip-link" href="#workspace">Skip to workspace</a>
+<div th:replace="~{fragments/fragments :: kitchen-header('profile')}"></div>
+<main id="workspace" class="owner-shell" tabindex="-1">
+    <header class="profile-cover">
+        <div class="profile-intro">
+            <p class="eyebrow">Kitchen profile</p>
+            <h1>Sofia Bowls</h1>
+            <p th:if="${kitchen.description != null and !#strings.isEmpty(kitchen.description)}"
+               th:text="${kitchen.description}"></p>
+            <a class="dark-button" href="kitchen-menu.html">View menu <span aria-hidden="true">→</span></a>
         </div>
-    </main>
-    <footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>
+        <img th:src="@{/img/default-kitchen-avatar.png}" width="1200" height="800">
+    </header>
+    <div class="profile-grid">
+        <section class="paper info-card" aria-labelledby="service-title">
+            <div class="paper-head"><h2 id="service-title">Delivery details</h2><a class="text-link"
+                                                                                   href="kitchen-settings.html">Settings
+                →</a></div>
+            <dl class="detail-list">
+                <div>
+                    <dt>Kitchen status</dt>
+                    <dd>
+        <span class="badge"
+              th:classappend="${kitchen.open ? 'available' : 'muted'}"
+              th:text="${kitchen.open ? 'Open for orders' : 'Paused'}">
+        </span>
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Estimated delivery</dt>
+                    <dd th:text="${kitchen.deliveryTime != null
+        ? kitchen.deliveryTime + ' min'
+        : 'Not set'}"></dd>
+                </div>
+                <div>
+                    <dt>Delivery fee</dt>
+                    <dd th:text="${kitchen.deliveryFee == null ? 'Not set' : '€' + #numbers.formatDecimal(kitchen.deliveryFee, 1, 2)}"></dd>
+                </div>
+            </dl>
+        </section>
+        <section class="paper info-card" aria-labelledby="owner-title">
+            <div class="paper-head"><h2 id="owner-title">Kitchen owner</h2></div>
+            <div class="owner-identity"
+                 th:with="fullName=${kitchen.owner.fullName},
+              name=${fullName != null and !fullName.isBlank() ? fullName.trim() : kitchen.owner.username},
+              parts=${name.split('\s+')}">
+                    <span aria-hidden="true"
+                          th:text="${(parts[0].substring(0, 1) + (parts.length > 1 ? parts[parts.length - 1].substring(0, 1) : '')).toUpperCase()}"></span>
+                <div>
+                    <h3 th:text="${name}"></h3>
+                    <p th:text="${kitchen.owner.email}"></p>
+                </div>
+            </div>
+            <a class="secondary" th:href="@{/profile}">My account <span aria-hidden="true">→</span></a>
+        </section>
+    </div>
+</main>
+<footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>
 </body>
 </html>

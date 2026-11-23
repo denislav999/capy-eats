@@ -7,6 +7,7 @@ import capyeats.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Builder
@@ -26,14 +27,17 @@ public class Kitchen extends BaseEntity {
     @Column
     private Integer reviewsCount;
 
+    @Column(length = 150)
+    private String description;
+
     @Column
     private Integer deliveryTime;
 
     @Column(nullable = false)
     private boolean isOpen;
 
-    @Column
-    private Double deliveryFee;
+    @Column(precision = 6, scale = 2)
+    private BigDecimal deliveryFee;
 
     @OneToMany(mappedBy="kitchen")
     private List<MenuItem> menu;

@@ -48,7 +48,7 @@ h3 { font-size: 1.02rem; }
 .dark-button { background: var(--charcoal); color: white; }
 .dark-button:hover { background: #463225; }
 .field { display: grid; gap: 5px; font-size: .9rem; font-weight: 600; }
-.field input, .field select { padding: 9px 11px; width: 100%; border: 1px solid #bcafa4; border-radius: 7px; background: white; color: var(--dark); font-weight: 400; }
+.field input, .field select, .field textarea { padding: 9px 11px; width: 100%; border: 1px solid #bcafa4; border-radius: 7px; background: white; color: var(--dark); font-weight: 400; }
 .note, .preview-note { color: var(--muted); font-size: .85rem; }
 .preview-note { padding-block: 22px; font-size: .75rem; }
 
@@ -201,6 +201,8 @@ h3 { font-size: 1.02rem; }
 .settings-group + .settings-group { margin-top: 16px; }
 .settings-group legend { margin-bottom: 14px; padding: 0; font-size: 1.13rem; font-weight: 700; }
 .settings-fields { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 20px; }
+.settings-description { grid-column: 1 / -1; }
+.settings-description textarea { font-family: inherit; font-size: inherit; resize: vertical; }
 .service-options { display: flex; gap: 10px; flex-wrap: wrap; }
 .service-options label {
     display: inline-flex;

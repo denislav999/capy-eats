@@ -13,69 +13,97 @@
     <main id="workspace" class="owner-shell" tabindex="-1">
         <header class="page-heading">
             <div>
-                <p class="eyebrow">Sofia Bowls</p>
+                <p class="eyebrow" th:text="${kitchen.name}"></p>
                 <h1>Kitchen menu</h1>
             </div>
         </header>
 
         <section class="paper menu-sheet" aria-labelledby="bowls-heading">
             <div class="menu-cover">
-                <img src="kitchen-cover.jpg" width="1200" height="800" alt="Chicken and rice bowl with cucumber and shredded cabbage">
+                <img th:src="@{/img/default-kitchen-avatar.png}" width="1200" height="800" >
                 <div class="menu-category">
-                    <h2 id="bowls-heading">Bowls</h2>
-                    <p>3 dishes</p>
+                    <h2 id="bowls-heading">Menu</h2>
+                    <p th:text="${#lists.size(menuItems) == 1 ? '1 dish' : #lists.size(menuItems) + ' dishes'}"></p>
                 </div>
             </div>
             <div class="draft-menu">
-                <p class="note">Open a dish to draft changes. The published menu stays as shown.</p>
-                <details class="dish">
+                <p class="note" role="alert" th:if="${menuError}" th:text="${menuError}"></p>
+                <p class="note" th:if="${#lists.isEmpty(menuItems)}">No dishes yet.</p>
+                <details class="dish" th:each="menuItem : ${menuItems}"
+                         th:with="editing=${menuItem.id == editItemId}" th:open="${editing}">
                     <summary>
-                        <span class="dish-label"><strong>Sesame chicken bowl</strong><span class="badge available">Available</span></span>
-                        <span class="dish-price">€8.50</span><span class="dish-caret" aria-hidden="true"></span>
+                        <span class="dish-label">
+                            <strong th:text="${menuItem.name}"></strong>
+                            <span class="badge" th:classappend="${menuItem.available ? 'available' : 'muted'}"
+                                  th:text="${menuItem.available ? 'Available' : 'Hidden'}"></span>
+                        </span>
+                        <span class="dish-price" th:text="|€${#numbers.formatDecimal(menuItem.price, 1, 2)}|"></span>
+                        <span class="dish-caret" aria-hidden="true"></span>
                     </summary>
-                    <fieldset class="dish-fields">
-                        <legend>Edit sesame chicken bowl</legend>
-                        <label class="field">Dish name<input type="text" value="Sesame chicken bowl" maxlength="100"></label>
-                        <label class="field">Price (€)<input type="number" min="0.01" max="9999.99" step="0.01" value="8.50"></label>
-                        <label class="field">Availability<select><option selected>Available</option><option>Hidden</option></select></label>
-                    </fieldset>
+
+                    <div th:if="${editing}" th:object="${editMenuItemRequest}" role="alert">
+                        <ul>
+                            <li th:each="error : ${#fields.allErrors()}" th:text="${error}"></li>
+                        </ul>
+                    </div>
+
+                    <form th:action="@{/kitchen-menu/{id}(id=${menuItem.id})}" method="post">
+                        <fieldset class="dish-fields">
+                            <legend th:text="|Edit ${menuItem.name}|"></legend>
+                            <label class="field">Dish name
+                                <input type="text" name="name" maxlength="30" required
+                                       th:value="${editing ? editMenuItemRequest.name : menuItem.name}">
+                            </label>
+                            <label class="field">Price (€)
+                                <input type="number" name="price" min="0.01" max="9999.99" step="0.01" required
+                                       th:value="${editing ? editMenuItemRequest.price : menuItem.price}">
+                            </label>
+                            <label class="field">Availability
+                                <select name="available" th:with="available=${editing ? editMenuItemRequest.available : menuItem.available}">
+                                    <option value="true" th:selected="${available}">Available</option>
+                                    <option value="false" th:selected="${!available}">Hidden</option>
+                                </select>
+                            </label>
+                            <button class="dark-button" type="submit">Save changes</button>
+                        </fieldset>
+                    </form>
+
+                    <form th:action="@{/kitchen-menu/{id}/delete(id=${menuItem.id})}" method="post">
+                        <button class="secondary" type="submit">Delete dish</button>
+                    </form>
                 </details>
-                <details class="dish">
-                    <summary>
-                        <span class="dish-label"><strong>Green falafel bowl</strong><span class="badge available">Available</span></span>
-                        <span class="dish-price">€7.00</span><span class="dish-caret" aria-hidden="true"></span>
-                    </summary>
-                    <fieldset class="dish-fields">
-                        <legend>Edit green falafel bowl</legend>
-                        <label class="field">Dish name<input type="text" value="Green falafel bowl" maxlength="100"></label>
-                        <label class="field">Price (€)<input type="number" min="0.01" max="9999.99" step="0.01" value="7.00"></label>
-                        <label class="field">Availability<select><option selected>Available</option><option>Hidden</option></select></label>
-                    </fieldset>
-                </details>
-                <details class="dish">
-                    <summary>
-                        <span class="dish-label"><strong>Roasted veggie bowl</strong><span class="badge muted">Hidden</span></span>
-                        <span class="dish-price">€7.50</span><span class="dish-caret" aria-hidden="true"></span>
-                    </summary>
-                    <fieldset class="dish-fields">
-                        <legend>Edit roasted veggie bowl</legend>
-                        <label class="field">Dish name<input type="text" value="Roasted veggie bowl" maxlength="100"></label>
-                        <label class="field">Price (€)<input type="number" min="0.01" max="9999.99" step="0.01" value="7.50"></label>
-                        <label class="field">Availability<select><option>Available</option><option selected>Hidden</option></select></label>
-                    </fieldset>
-                </details>
-                <details class="dish new-dish">
-                    <summary>Draft a new dish <span class="dish-caret" aria-hidden="true"></span></summary>
-                    <fieldset class="dish-fields">
-                        <legend>New dish</legend>
-                        <label class="field">Dish name<input type="text" maxlength="100"></label>
-                        <label class="field">Price (€)<input type="number" min="0.01" max="9999.99" step="0.01"></label>
-                        <label class="field">Availability<select><option>Available</option><option selected>Hidden</option></select></label>
-                    </fieldset>
+
+                <details class="dish new-dish" open>
+                    <summary>Add a dish <span class="dish-caret" aria-hidden="true"></span></summary>
+
+                    <form th:action="@{/kitchen-menu}" th:object="${menuItemRequest}" th:method="post">
+                        <fieldset class="dish-fields">
+                            <legend>New dish</legend>
+
+                            <label class="field">Dish name
+                                <input type="text" th:field="*{name}" maxlength="30" required>
+                            </label>
+                            <p th:errors="*{name}"></p>
+
+                            <label class="field">Price (€)
+                                <input type="number" th:field="*{price}"
+                                       min="0.01" max="9999.99" step="0.01" required>
+                            </label>
+                            <p th:errors="*{price}"></p>
+
+                            <label class="field">Availability
+                                <select th:field="*{available}">
+                                    <option value="true">Available</option>
+                                    <option value="false">Hidden</option>
+                                </select>
+                            </label>
+
+                            <button type="submit">Save dish</button>
+                        </fieldset>
+                    </form>
                 </details>
             </div>
         </section>
     </main>
-    <footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>
 </body>
 </html>

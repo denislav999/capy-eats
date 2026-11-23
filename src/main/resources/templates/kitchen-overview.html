@@ -33,12 +33,12 @@
                 </section>
             </div>
             <aside class="store-card" aria-labelledby="store-title">
-                <img class="store-photo" th:src="@{/img/kitchen-cover.jpg}" width="1200" height="800" alt="Chicken and rice bowl with fresh herbs">
+                <img class="store-photo" th:src="@{/img/default-kitchen-avatar.png}" width="1200" height="800">
                 <div class="store-info">
                     <p class="eyebrow">Your kitchen</p>
                     <h2 th:text="${kitchen.name}" id="store-title"></h2>
                     <p>Delivery time <span aria-hidden="true">·</span> <span th:text="${kitchen.deliveryTime == null ? 'Unknown' : kitchen.deliveryTime + ' min'}">Unknown</span></p>
-                    <a class="store-link" href="kitchen-profile.html">View kitchen profile <span aria-hidden="true">→</span></a>
+                    <a class="store-link" th:href="@{/img/kitchen-profile}">View kitchen profile <span aria-hidden="true">→</span></a>
                 </div>
             </aside>
         </div>
