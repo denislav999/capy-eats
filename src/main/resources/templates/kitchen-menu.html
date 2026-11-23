@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Menu · Sofia Bowls · capyEats</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/owner.css">
+</head>
+<body>
+    <a class="skip-link" href="#workspace">Skip to workspace</a>
+    <div th:replace="~{fragments/fragments :: kitchen-header('menu')}"> </div>
+    <main id="workspace" class="owner-shell" tabindex="-1">
+        <header class="page-heading">
+            <div>
+                <p class="eyebrow">Sofia Bowls</p>
+                <h1>Kitchen menu</h1>
+            </div>
+        </header>
+
+        <section class="paper menu-sheet" aria-labelledby="bowls-heading">
+            <div class="menu-cover">
+                <img src="kitchen-cover.jpg" width="1200" height="800" alt="Chicken and rice bowl with cucumber and shredded cabbage">
+                <div class="menu-category">
+                    <h2 id="bowls-heading">Bowls</h2>
+                    <p>3 dishes</p>
+                </div>
+            </div>
+            <div class="draft-menu">
+                <p class="note">Open a dish to draft changes. The published menu stays as shown.</p>
+                <details class="dish">
+                    <summary>
+                        <span class="dish-label"><strong>Sesame chicken bowl</strong><span class="badge available">Available</span></span>
+                        <span class="dish-price">€8.50</span><span class="dish-caret" aria-hidden="true"></span>
+                    </summary>
+                    <fieldset class="dish-fields">
+                        <legend>Edit sesame chicken bowl</legend>
+                        <label class="field">Dish name<input type="text" value="Sesame chicken bowl" maxlength="100"></label>
+                        <label class="field">Price (€)<input type="number" min="0.01" max="9999.99" step="0.01" value="8.50"></label>
+                        <label class="field">Availability<select><option selected>Available</option><option>Hidden</option></select></label>
+                    </fieldset>
+                </details>
+                <details class="dish">
+                    <summary>
+                        <span class="dish-label"><strong>Green falafel bowl</strong><span class="badge available">Available</span></span>
+                        <span class="dish-price">€7.00</span><span class="dish-caret" aria-hidden="true"></span>
+                    </summary>
+                    <fieldset class="dish-fields">
+                        <legend>Edit green falafel bowl</legend>
+                        <label class="field">Dish name<input type="text" value="Green falafel bowl" maxlength="100"></label>
+                        <label class="field">Price (€)<input type="number" min="0.01" max="9999.99" step="0.01" value="7.00"></label>
+                        <label class="field">Availability<select><option selected>Available</option><option>Hidden</option></select></label>
+                    </fieldset>
+                </details>
+                <details class="dish">
+                    <summary>
+                        <span class="dish-label"><strong>Roasted veggie bowl</strong><span class="badge muted">Hidden</span></span>
+                        <span class="dish-price">€7.50</span><span class="dish-caret" aria-hidden="true"></span>
+                    </summary>
+                    <fieldset class="dish-fields">
+                        <legend>Edit roasted veggie bowl</legend>
+                        <label class="field">Dish name<input type="text" value="Roasted veggie bowl" maxlength="100"></label>
+                        <label class="field">Price (€)<input type="number" min="0.01" max="9999.99" step="0.01" value="7.50"></label>
+                        <label class="field">Availability<select><option>Available</option><option selected>Hidden</option></select></label>
+                    </fieldset>
+                </details>
+                <details class="dish new-dish">
+                    <summary>Draft a new dish <span class="dish-caret" aria-hidden="true"></span></summary>
+                    <fieldset class="dish-fields">
+                        <legend>New dish</legend>
+                        <label class="field">Dish name<input type="text" maxlength="100"></label>
+                        <label class="field">Price (€)<input type="number" min="0.01" max="9999.99" step="0.01"></label>
+                        <label class="field">Availability<select><option>Available</option><option selected>Hidden</option></select></label>
+                    </fieldset>
+                </details>
+            </div>
+        </section>
+    </main>
+    <footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>
+</body>
+</html>

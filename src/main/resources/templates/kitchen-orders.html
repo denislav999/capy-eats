@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orders · Sofia Bowls · capyEats</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/owner.css">
+</head>
+<body>
+    <a class="skip-link" href="#workspace">Skip to workspace</a>
+    <div th:replace="~{fragments/fragments :: kitchen-header('orders')}"> </div>
+    <main id="workspace" class="owner-shell" tabindex="-1">
+        <header class="page-heading">
+            <div><p class="eyebrow">Sofia Bowls</p><h1>Orders</h1></div>
+        </header>
+        <p class="note ticket-note">Sample tickets. Status changes apply only to this page.</p>
+        <div class="ticket-grid">
+            <article id="order-1043" class="paper order-ticket" aria-labelledby="ticket-1043">
+                <header class="ticket-head">
+                    <div>
+                        <h2 id="ticket-1043">Order #1043</h2>
+                        <p>Received at <time datetime="12:12">12:12</time></p>
+                    </div>
+                    <label class="ticket-state">
+                        <span>Status<span class="ticket-sr"> of order #1043</span></span>
+                        <select>
+                            <option selected>New</option>
+                            <option>Preparing</option>
+                            <option>Completed</option>
+                        </select>
+                    </label>
+                </header>
+                <details open>
+                    <summary>
+                        <span>2 items</span>
+                        <strong>€15.50</strong>
+                    </summary>
+                    <ul class="ticket-items">
+                        <li><span>1 × Sesame chicken bowl</span><span>€8.50</span></li>
+                        <li><span>1 × Green falafel bowl</span><span>€7.00</span></li>
+                    </ul>
+                </details>
+            </article>
+            <article id="order-1042" class="paper order-ticket" aria-labelledby="ticket-1042">
+                <header class="ticket-head">
+                    <div>
+                        <h2 id="ticket-1042">Order #1042</h2>
+                        <p>Received at <time datetime="12:09">12:09</time></p>
+                    </div>
+                    <label class="ticket-state">
+                        <span>Status<span class="ticket-sr"> of order #1042</span></span>
+                        <select>
+                            <option selected>New</option>
+                            <option>Preparing</option>
+                            <option>Completed</option>
+                        </select>
+                    </label>
+                </header>
+                <details>
+                    <summary>
+                        <span>1 item</span>
+                        <strong>€7.00</strong>
+                    </summary>
+                    <ul class="ticket-items">
+                        <li><span>1 × Green falafel bowl</span><span>€7.00</span></li>
+                    </ul>
+                </details>
+            </article>
+            <article id="order-1041" class="paper order-ticket" aria-labelledby="ticket-1041">
+                <header class="ticket-head">
+                    <div>
+                        <h2 id="ticket-1041">Order #1041</h2>
+                        <p>Received at <time datetime="12:04">12:04</time></p>
+                    </div>
+                    <label class="ticket-state">
+                        <span>Status<span class="ticket-sr"> of order #1041</span></span>
+                        <select>
+                            <option>New</option>
+                            <option selected>Preparing</option>
+                            <option>Completed</option>
+                        </select>
+                    </label>
+                </header>
+                <details>
+                    <summary>
+                        <span>2 items</span>
+                        <strong>€17.00</strong>
+                    </summary>
+                    <ul class="ticket-items">
+                        <li><span>2 × Sesame chicken bowl</span><span>€17.00</span></li>
+                    </ul>
+                </details>
+            </article>
+            <article id="order-1040" class="paper order-ticket" aria-labelledby="ticket-1040">
+                <header class="ticket-head">
+                    <div>
+                        <h2 id="ticket-1040">Order #1040</h2>
+                        <p>Received at <time datetime="11:50">11:50</time></p>
+                    </div>
+                    <span class="badge muted">Completed</span>
+                </header>
+                <details>
+                    <summary>
+                        <span>1 item</span>
+                        <strong>€7.00</strong>
+                    </summary>
+                    <ul class="ticket-items">
+                        <li><span>1 × Green falafel bowl</span><span>€7.00</span></li>
+                    </ul>
+                </details>
+            </article>
+        </div>
+    </main>
+    <footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>
+</body>
+</html>

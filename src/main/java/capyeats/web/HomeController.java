@@ -1,15 +1,19 @@
 package capyeats.web;
 
+import capyeats.security.UserData;
+import capyeats.user.model.UserRole;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
-
 @Controller
 public class HomeController {
-    @GetMapping
-    public String home(Principal principal) {
-        return principal == null ? "index" : "redirect:/home";
+    @GetMapping("/")
+    public String home(@AuthenticationPrincipal UserData userData) {
+        if (userData == null) {
+            return "index";
+        }
+        return userData.getRole() == UserRole.KITCHEN_OWNER ? "redirect:/kitchen-overview" : "redirect:/home";
     }
     @GetMapping("/about")
     public String about() {

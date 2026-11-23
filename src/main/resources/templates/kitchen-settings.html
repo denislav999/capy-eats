@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Settings · Sofia Bowls · capyEats</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/owner.css">
+</head>
+<body>
+    <a class="skip-link" href="#workspace">Skip to workspace</a>
+    <div th:replace="~{fragments/fragments :: kitchen-header('settings')}"> </div>
+    <main id="workspace" class="owner-shell" tabindex="-1">
+        <header class="page-heading">
+            <div>
+                <p class="eyebrow">Sofia Bowls</p>
+                <h1>Kitchen settings</h1>
+            </div>
+            <a class="secondary" href="kitchen-profile.html">View kitchen profile</a>
+        </header>
+
+        <form class="paper settings-sheet" aria-label="Kitchen settings preview" aria-describedby="settings-note">
+            <fieldset class="settings-group">
+                <legend>Kitchen details</legend>
+                <div class="settings-fields">
+                    <div class="field">
+                        <label for="setting-name">Kitchen name</label>
+                        <input id="setting-name" type="text" value="Sofia Bowls" required maxlength="60">
+                    </div>
+                    <div class="field">
+                        <label for="setting-prep">Preparation time (minutes)</label>
+                        <input id="setting-prep" type="number" value="20" min="5" max="120" step="1" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="settings-group">
+                <legend>New orders</legend>
+                <div class="service-options">
+                    <label><input type="radio" name="availability" value="open" checked> Accept orders</label>
+                    <label><input type="radio" name="availability" value="paused"> Pause orders</label>
+                </div>
+            </fieldset>
+
+            <div class="settings-footer">
+                <p class="note" id="settings-note">Edits are drafts on this page. Your kitchen profile keeps its sample values.</p>
+                <button type="reset" class="secondary">Reset draft</button>
+            </div>
+        </form>
+    </main>
+    <footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>
+</body>
+</html>

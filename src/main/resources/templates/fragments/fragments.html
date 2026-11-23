@@ -47,7 +47,8 @@
     </div>
 </footer>
 
-<aside class="profile-sidebar" th:fragment="profile-sidebar">
+<aside class="profile-sidebar" th:fragment="profile-sidebar"
+       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="profile-avatar-card">
         <div class="profile-avatar">
             <img th:src="@{${user.profilePicture}}" height="100" width="100" alt="Profile">
@@ -58,13 +59,35 @@
 
     <nav class="profile-nav">
         <a th:href="@{/profile}" class="nav-item" th:classappend="${activePage == 'profile'} ? ' active'">Personal Info</a>
-        <a th:href="@{/profile/addresses}" class="nav-item" th:classappend="${activePage == 'addresses'} ? ' active'">Addresses</a>
-        <a th:href="@{/profile/payments}" class="nav-item" th:classappend="${activePage == 'payments'} ? ' active'">Payment</a>
-        <a th:href="@{/profile/orders}" class="nav-item" th:classappend="${activePage == 'orders'} ? ' active'">Orders</a>
-        <a th:href="@{/profile/settings}" class="nav-item" th:classappend="${activePage == 'settings'} ? ' active'">Settings</a>
+        <a sec:authorize="hasRole('KITCHEN_OWNER')" th:href="@{/kitchen-overview}" class="nav-item">Back to my kitchen</a>
+        <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/profile/addresses}" class="nav-item"
+           th:classappend="${activePage == 'addresses'} ? ' active'">Addresses</a>
+        <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/profile/payments}" class="nav-item"
+           th:classappend="${activePage == 'payments'} ? ' active'">Payment</a>
+        <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/profile/orders}" class="nav-item"
+           th:classappend="${activePage == 'orders'} ? ' active'">Orders</a>
+        <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/profile/settings}" class="nav-item"
+           th:classappend="${activePage == 'settings'} ? ' active'">Settings</a>
     </nav>
 
     <button class="logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location.href='/logout';">
         <span>Logout</span>
     </button>
 </aside>
+
+<header class="owner-header" th:fragment="kitchen-header(activePage)">
+    <div class="owner-shell masthead">
+        <a class="logo" th:href="@{/kitchen-overview}" aria-label="capyEats owner overview">capyEats</a>
+        <nav class="workspace-nav" aria-label="Kitchen workspace">
+            <a th:href="@{/kitchen-overview}"th:attr="aria-current=${activePage == 'overview' ? 'page' : null}">Overview</a>
+            <a th:href="@{/kitchen-orders}" th:attr="aria-current=${activePage == 'orders' ? 'page' : null}">Orders</a>
+            <a th:href="@{/kitchen-menu}"th:attr="aria-current=${activePage == 'menu' ? 'page' : null}">Menu</a>
+            <a th:href="@{/kitchen-profile}"th:attr="aria-current=${activePage == 'profile' ? 'page' : null}">Kitchen Profile</a>
+            <a th:href="@{/kitchen-settings}"th:attr="aria-current=${activePage == 'settings' ? 'page' : null}">Settings</a>
+        </nav>
+        <nav class="account-nav" aria-label="Account">
+            <a th:href="@{/profile}">My profile</a>
+            <a th:href="@{/logout}">Log out</a>
+        </nav>
+    </div>
+</header>

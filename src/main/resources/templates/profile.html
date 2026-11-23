@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +8,9 @@
     <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
-<!-- Simplified header with only logo linking to home -->
 <header class="app-header">
     <div class="container">
-        <a href="/home" class="logo">capyEats</a>
+        <a th:href="@{/}" class="logo">capyEats</a>
     </div>
 </header>
 
@@ -63,7 +62,7 @@
                     </div>
                 </div>
                 <!-- Stats Cards -->
-                <div class="stats-grid">
+                 <div class="stats-grid" sec:authorize="hasAnyRole('USER','ADMIN')">
                     <div class="stat-card">
                         <div class="stat-icon">📦</div>
                         <div class="stat-info">
@@ -88,7 +87,7 @@
                 </div>
 
                 <!-- Saved Addresses -->
-                <div class="section-card">
+                <div class="section-card" sec:authorize="hasAnyRole('USER','ADMIN')">
                     <div class="section-header">
                         <h2>Saved Addresses</h2>
                         <a class="btn-add" th:href="@{/profile/addresses}">+ Add New</a>
@@ -115,7 +114,7 @@
                 </div>
 
                 <!-- Payment Methods -->
-                <div class="section-card">
+                <div class="section-card" sec:authorize="hasAnyRole('USER','ADMIN')">
                     <div class="section-header">
                         <h2>Payment Methods</h2>
                         <button class="btn-add">+ Add Card</button>

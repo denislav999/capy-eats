@@ -27,10 +27,10 @@ public class Kitchen extends BaseEntity {
     private Integer reviewsCount;
 
     @Column
-    private Integer minDeliveryTime;
+    private Integer deliveryTime;
 
-    @Column
-    private Integer maxDeliveryTime;
+    @Column(nullable = false)
+    private boolean isOpen;
 
     @Column
     private Double deliveryFee;

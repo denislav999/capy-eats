@@ -36,8 +36,7 @@
                             th:field="*{username}"
                             required
                     >
-                    <p class="validation-warning" th:if="${error}" th:text="${error}"></p>
-                    <p class="validation-warning" id="username-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+
                 </div>
 
                 <div class="form-group">
@@ -52,7 +51,9 @@
                             required
                     >
 
-                    <p class="validation-warning" id="password-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                    <p class="validation-warning" th:if="${param.error != null}">
+                        Invalid username or password.
+                    </p>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-full">Log in</button>

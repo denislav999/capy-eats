@@ -19,7 +19,7 @@ public class MenuItem extends BaseEntity {
     private String name;
     @Column(nullable = false)
     private BigDecimal price;
-    @Column(nullable = false, name = "is_avaible")
+    @Column(nullable = false, name = "is_available")
     private boolean isAvailable = true;
 
     @ManyToOne

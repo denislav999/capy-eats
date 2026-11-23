@@ -7,8 +7,12 @@ import capyeats.user.model.UserRole;
 import capyeats.user.service.UserService;
 import capyeats.web.dto.KitchenOwnerRequest;
 import capyeats.web.dto.RegisterUserRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 
 @Service
@@ -41,5 +45,9 @@ public class KitchenService {
 
     public boolean existsKitchen(String kitchenName) {
         return kitchenRepository.findByName(kitchenName).isPresent();
+    }
+
+    public Kitchen getKitchenByUserId(UUID userId) {
+        return kitchenRepository.findByOwner_Id(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Kitchen not found"));
     }
 }
