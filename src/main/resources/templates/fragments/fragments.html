@@ -76,8 +76,6 @@
         <a sec:authorize="hasRole('KITCHEN_OWNER')" th:href="@{/kitchen-overview}" class="nav-item">Back to my kitchen</a>
         <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/profile/addresses}" class="nav-item"
            th:classappend="${activePage == 'addresses'} ? ' active'">Addresses</a>
-        <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/profile/payments}" class="nav-item"
-           th:classappend="${activePage == 'payments'} ? ' active'">Payment</a>
         <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/profile/orders}" class="nav-item"
            th:classappend="${activePage == 'orders'} ? ' active'">Orders</a>
         <a sec:authorize="hasAnyRole('USER','ADMIN')" th:href="@{/profile/settings}" class="nav-item"

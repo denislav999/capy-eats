@@ -124,6 +124,30 @@ h3 { font-size: 1.02rem; }
 .ticket-head p, .ticket-state > span { font-size: .8rem; color: var(--gray); }
 .ticket-state { display: grid; gap: 2px; }
 .ticket-state select { background: var(--warm); color: var(--dark); border: 1px solid #d9b299; border-radius: 6px; padding: 4px 8px; font: inherit; font-size: .875rem; }
+.ticket-status-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px;
+    border: 1px solid #f1d8c7;
+    border-radius: 12px;
+    background: #fff4eb;
+}
+.ticket-status-form .ticket-state { gap: 5px; min-width: 0; }
+.ticket-status-form .ticket-state > span { color: var(--rust); font-size: .875rem; font-weight: 650; }
+.ticket-status-form select {
+    appearance: none;
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 30px 8px 10px;
+    border-radius: 8px;
+    background: linear-gradient(45deg, transparent 50%, var(--rust) 50%) right 16px center / 5px 5px no-repeat,
+                linear-gradient(135deg, var(--rust) 50%, transparent 50%) right 11px center / 5px 5px no-repeat,
+                white;
+}
+.ticket-status-form .dark-button { min-height: 44px; border: 1px solid transparent; }
 .ticket-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .order-ticket details { margin-top: 16px; padding-top: 10px; border-top: 1px dashed #bdb1a6; }
 .order-ticket summary { padding: 4px 0; cursor: pointer; font-size: .9rem; }
@@ -132,6 +156,9 @@ h3 { font-size: 1.02rem; }
 .ticket-items li { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 3px 0; font-size: .85rem; }
 @media (max-width: 700px) {
     .ticket-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 460px) {
+    .ticket-status-form { grid-template-columns: minmax(0, 1fr); }
 }
 .menu-sheet {
     display: grid;

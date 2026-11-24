@@ -8,41 +8,71 @@
     <link rel="stylesheet" th:href="@{/css/owner.css}">
 </head>
 <body>
-    <a class="skip-link" href="#workspace">Skip to workspace</a>
-    <div th:replace="~{fragments/fragments :: kitchen-header('overview')}"> </div>
-    <main id="workspace" class="owner-shell" tabindex="-1">
-        <header class="page-heading">
-            <div><p class="eyebrow" th:text="${kitchen.name}"></p><h1>Service board</h1></div>
-            <span class="badge available">Open for orders</span>
-        </header>
+<a class="skip-link" href="#workspace">Skip to workspace</a>
+<div th:replace="~{fragments/fragments :: kitchen-header('overview')}"></div>
+<main id="workspace" class="owner-shell" tabindex="-1">
+    <header class="page-heading">
+        <div><p class="eyebrow" th:text="${kitchen.name}"></p>
+            <h1>Service board</h1></div>
+        <span class="badge available">Open for orders</span>
+    </header>
 
-        <div class="overview-grid">
-            <div class="service-column">
-                <dl class="service-totals">
-                    <div><dt>New orders</dt><dd>2</dd></div>
-                    <div><dt>Preparing</dt><dd>1</dd></div>
-                    <div><dt>Available dishes</dt><dd>2</dd></div>
-                </dl>
-                <section class="paper queue-card" aria-labelledby="queue-title">
-                    <div class="paper-head"><h2 id="queue-title">Order queue</h2><a class="text-link" href="kitchen-orders.html">All orders →</a></div>
-                    <ol class="queue-list">
-                        <li><a href="kitchen-orders.html#order-1041"><span class="ticket-id">#1041<time datetime="12:04">12:04</time></span><span>2 × Sesame chicken bowl</span><span class="badge progress">Preparing</span></a></li>
-                        <li><a href="kitchen-orders.html#order-1042"><span class="ticket-id">#1042<time datetime="12:09">12:09</time></span><span>1 × Green falafel bowl</span><span class="badge fresh">New</span></a></li>
-                        <li><a href="kitchen-orders.html#order-1043"><span class="ticket-id">#1043<time datetime="12:12">12:12</time></span><span>1 × Sesame chicken bowl<br>1 × Green falafel bowl</span><span class="badge fresh">New</span></a></li>
-                    </ol>
-                </section>
-            </div>
-            <aside class="store-card" aria-labelledby="store-title">
-                <img class="store-photo" th:src="@{/img/default-kitchen-avatar.png}" width="1200" height="800">
-                <div class="store-info">
-                    <p class="eyebrow">Your kitchen</p>
-                    <h2 th:text="${kitchen.name}" id="store-title"></h2>
-                    <p>Delivery time <span aria-hidden="true">·</span> <span th:text="${kitchen.deliveryTime == null ? 'Unknown' : kitchen.deliveryTime + ' min'}">Unknown</span></p>
-                    <a class="store-link" th:href="@{/img/kitchen-profile}">View kitchen profile <span aria-hidden="true">→</span></a>
+    <div class="overview-grid">
+        <div class="service-column">
+            <dl class="service-totals">
+                <div>
+                    <dt>New orders</dt>
+                    <dd th:text="${newOrders}">2</dd>
                 </div>
-            </aside>
+                <div>
+                    <dt>Preparing</dt>
+                    <dd th:text="${preparingOrders}">1</dd>
+                </div>
+                <div>
+                    <dt>Available dishes</dt>
+                    <dd th:text="${availableDishes}">2</dd>
+                </div>
+            </dl>
+            <section class="paper queue-card" aria-labelledby="queue-title">
+                <div class="paper-head"><h2 id="queue-title">Order queue</h2><a class="text-link"
+                                                                                th:href="@{/kitchen-orders}">All orders
+                    →</a></div>
+                <p class="note" th:if="${#lists.isEmpty(orders)}">No orders yet.</p>
+                <ol class="queue-list" th:unless="${#lists.isEmpty(orders)}">
+                    <li th:each="order : ${orders}">
+                        <a th:href="@{/kitchen-orders}" th:with="status=${order.orderStatus.name()}">
+                            <span class="ticket-id">
+                                <span th:text="|#${#strings.substring(order.id.toString(), 0, 8)}|"></span>
+                                <time th:attr="datetime=${order.createdAt.toString()}"
+                                      th:text="${#temporals.format(order.createdAt, 'HH:mm')}"></time>
+                            </span>
+                            <span>
+                                <span th:each="item, itemStat : ${order.orderItems}">
+                                    <span th:text="|${item.quantity} × ${item.name}|"></span><br th:unless="${itemStat.last}">
+                                </span>
+                            </span>
+                            <span class="badge"
+                                  th:classappend="${status == 'CREATED' ? 'fresh' : (status == 'PREPARING' ? 'progress' : '')}"
+                                  th:text="${status == 'CREATED' ? 'New' : #strings.capitalize(#strings.toLowerCase(status))}"></span>
+                        </a>
+                    </li>
+                </ol>
+            </section>
         </div>
-    </main>
-    <footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>
+        <aside class="store-card" aria-labelledby="store-title">
+            <img class="store-photo" th:src="@{/img/default-kitchen-avatar.png}" width="1200" height="800">
+            <div class="store-info">
+                <p class="eyebrow">Your kitchen</p>
+                <h2 th:text="${kitchen.name}" id="store-title"></h2>
+                <p>Delivery time <span aria-hidden="true">·</span> <span
+                        th:text="${kitchen.deliveryTime == null ? 'Unknown' : kitchen.deliveryTime + ' min'}">Unknown</span>
+                </p>
+                <a class="store-link" th:href="@{/img/kitchen-profile}">View kitchen profile <span
+                        aria-hidden="true">→</span></a>
+            </div>
+        </aside>
+    </div>
+</main>
+<footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>
 </body>
 </html>

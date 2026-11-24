@@ -5,6 +5,7 @@ import capyeats.user.model.User;
 import capyeats.user.model.UserRole;
 import capyeats.user.repository.UserRepository;
 import capyeats.web.dto.LoginRequest;
+import capyeats.web.dto.ProfileUpdateRequest;
 import capyeats.web.dto.RegisterUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -73,5 +74,29 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
 
         return new UserData(user.getId(),username, user.getPassword(),user.getRole(), user.isActive());
+    }
+
+    public boolean isUsernameAvailable(String username, UUID userId) {
+        return userRepository.findByUsername(username)
+                .map(user -> user.getId().equals(userId))
+                .orElse(true);
+    }
+
+    public boolean isEmailAvailable(String email, UUID userId) {
+        return userRepository.findByEmailIgnoreCase(email)
+                .map(user -> user.getId().equals(userId))
+                .orElse(true);
+    }
+
+    public void updateProfile(UUID userId, ProfileUpdateRequest request) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            return;
+        }
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setFullName(request.getFullName());
+        userRepository.saveAndFlush(user);
     }
 }

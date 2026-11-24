@@ -201,6 +201,21 @@
     box-shadow: 0 0 0 3px rgba(255, 111, 55, 0.1);
 }
 
+.profile-content:not(.profile-editing) .profile-edit-only,
+.profile-editing .profile-view-only {
+    display: none;
+}
+
+.profile-edit-only .info-input {
+    width: 100%;
+}
+
+.profile-field-error {
+    margin-top: 6px;
+    color: #982c1e;
+    font-size: .875rem;
+}
+
 .hidden {
     display: none !important;
 }

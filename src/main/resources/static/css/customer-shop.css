@@ -3,6 +3,11 @@
     padding-block: clamp(28px, 6vw, 64px);
 }
 
+.shop-browse {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #ffefe4 0, #fffbf7 420px);
+}
+
 .shop-back {
     display: inline-block;
     margin-bottom: 20px;
@@ -20,31 +25,34 @@
 
 .shop-kitchen {
     display: grid;
-    grid-template-columns: minmax(110px, 192px) minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(16px, 5vw, 40px);
-    padding: clamp(16px, 4vw, 32px);
-    border: 1px solid #f0e3d9;
-    border-radius: 20px;
-    background: var(--warm);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    overflow: hidden;
+    border-radius: 24px;
+    background: linear-gradient(125deg, #572618, #933718);
+    color: #fffaf5;
+    box-shadow: 0 16px 36px #57261824;
 }
 
-.shop-kitchen-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 14px;
+.shop-kitchen-details {
+    align-self: center;
+    padding: clamp(24px, 5vw, 44px);
+}
+
+.shop-kitchen::after {
+    content: "";
+    min-height: 240px;
+    background: #cb673e url('../img/kitchen-cover.jpg') center / cover no-repeat;
 }
 
 .shop-status {
     display: inline-block;
-    margin-bottom: 10px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: #eee5dd;
-    color: #5e493a;
-    font-size: .8rem;
-    font-weight: 650;
+    margin-bottom: 14px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #ffe0bb;
+    color: #713713;
+    font-size: .875rem;
+    font-weight: 700;
 }
 
 .shop-status-open {
@@ -53,21 +61,28 @@
 }
 
 .shop-description {
-    margin-top: 9px;
-    color: var(--gray);
+    margin-top: 10px;
+    color: #ffede1;
     overflow-wrap: anywhere;
 }
 
 .shop-delivery {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 24px;
-    margin-top: 14px;
+    gap: 8px;
+    margin-top: 20px;
     font-size: .9rem;
 }
 
-.shop-delivery dt, .shop-price {
-    color: var(--gray);
+.shop-delivery > div {
+    padding: 6px 12px;
+    border: 1px solid #ffffff42;
+    border-radius: 12px;
+    background: #ffffff13;
+}
+
+.shop-delivery dt {
+    color: #ffede1;
 }
 
 .shop-delivery dd {
@@ -75,11 +90,12 @@
 }
 
 .shop-section {
-    margin-top: 28px;
+    margin-top: 32px;
 }
 
 .shop-section .section-title {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    text-align: left;
 }
 
 .shop-items {
@@ -88,15 +104,35 @@
     list-style: none;
 }
 
+.shop-menu .shop-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
 .shop-item {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 16px 20px;
-    border: 1px solid #efe4dd;
-    border-radius: 12px;
+    padding: 18px 20px;
+    border: 1px solid #f0dccc;
+    border-radius: 16px;
+    background: var(--white);
+    box-shadow: 0 4px 14px #5726180b;
+}
+
+.shop-menu .shop-item {
+    display: grid;
+    align-content: space-between;
+    justify-content: stretch;
+    align-items: start;
+    gap: 16px;
+    border-top: 3px solid #ef956c;
+}
+
+.shop-menu .shop-add {
+    padding: 9px 16px;
 }
 
 .shop-item h2, .shop-item h3 {
@@ -105,7 +141,17 @@
 }
 
 .shop-price {
+    color: #7c361c;
     font-variant-numeric: tabular-nums;
+}
+
+.shop-menu .shop-price {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 9px;
+    border-radius: 8px;
+    background: #ffe9da;
+    font-weight: 700;
 }
 
 .shop-add {
@@ -129,10 +175,42 @@
     background: #fff1ed;
 }
 
+.shop-browse .shop-empty {
+    padding: 20px;
+    border: 1px dashed #e3ab90;
+    border-radius: 16px;
+    background: #fff3ea;
+}
+
+.shop-browse .shop-message:not(.shop-message-error) {
+    color: #266039;
+    background: #e1f0e4;
+}
+
+.shop-cart-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(240px, 1fr);
+    align-items: start;
+    gap: 20px;
+}
+
 .shop-cart-actions, .shop-total {
     display: flex;
     gap: 12px;
     align-items: center;
+}
+
+.shop-cart-actions strong {
+    font-variant-numeric: tabular-nums;
+}
+
+.shop-cart-actions .btn-text {
+    padding-inline: 10px;
+    color: #8b3217;
+}
+
+.shop-cart-actions .btn-text:hover {
+    background: #ffefe4;
 }
 
 .shop-total {
@@ -146,6 +224,55 @@
 
 .shop-checkout-action {
     margin-top: 16px;
+}
+
+.shop-cart-summary {
+    padding: clamp(18px, 3vw, 26px);
+    border-radius: 20px;
+    background: #652b1c;
+    color: #fffaf5;
+    box-shadow: 0 12px 28px #57261822;
+}
+
+.shop-cart-summary h2 {
+    font-size: 1.25rem;
+}
+
+.shop-cart-summary .shop-total {
+    margin-top: 16px;
+    padding: 12px 0 0;
+    border-top: 1px solid #ffffff42;
+    border-radius: 0;
+    background: transparent;
+}
+
+.shop-cart-summary .shop-total dd {
+    font-size: 1.2rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.shop-cart-summary .shop-checkout-action {
+    display: block;
+    background: #ffc39f;
+    color: #542217;
+    text-align: center;
+}
+
+.shop-cart-summary .shop-checkout-action:hover {
+    background: #ffd9bf;
+}
+
+.shop-browse .shop-page :is(a, button):focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+
+.shop-browse .shop-page .shop-add:focus-visible {
+    outline-color: #8c3414;
+}
+
+.shop-browse .shop-cart-summary .shop-add:focus-visible {
+    outline-color: #ffc39f;
 }
 
 .shop-checkout-grid {
@@ -254,17 +381,19 @@
 }
 
 @media (max-width: 720px) {
-    .shop-checkout-grid {
+    .shop-checkout-grid,
+    .shop-cart-grid {
         grid-template-columns: minmax(0, 1fr);
     }
 }
 
 @media (max-width: 540px) {
-    .shop-kitchen {
-        grid-template-columns: 1fr;
+    .shop-kitchen,
+    .shop-menu .shop-items {
+        grid-template-columns: minmax(0, 1fr);
     }
 
-    .shop-kitchen-image {
-        width: 104px;
+    .shop-kitchen::after {
+        min-height: 160px;
     }
 }

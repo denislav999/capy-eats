@@ -14,17 +14,17 @@
     <header class="profile-cover">
         <div class="profile-intro">
             <p class="eyebrow">Kitchen profile</p>
-            <h1>Sofia Bowls</h1>
+            <h1 th:text="${kitchen.name}"></h1>
             <p th:if="${kitchen.description != null and !#strings.isEmpty(kitchen.description)}"
                th:text="${kitchen.description}"></p>
-            <a class="dark-button" href="kitchen-menu.html">View menu <span aria-hidden="true">→</span></a>
+            <a class="dark-button" th:href="@{/kitchen-menu}">View menu <span aria-hidden="true">→</span></a>
         </div>
         <img th:src="@{/img/default-kitchen-avatar.png}" width="1200" height="800">
     </header>
     <div class="profile-grid">
         <section class="paper info-card" aria-labelledby="service-title">
             <div class="paper-head"><h2 id="service-title">Delivery details</h2><a class="text-link"
-                                                                                   href="kitchen-settings.html">Settings
+                                                                                   th:href="@{/kitchen-settings}">Settings
                 →</a></div>
             <dl class="detail-list">
                 <div>

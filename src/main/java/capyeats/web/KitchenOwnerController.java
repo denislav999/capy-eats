@@ -3,19 +3,17 @@ package capyeats.web;
 import capyeats.kitchen.model.Kitchen;
 import capyeats.kitchen.service.KitchenService;
 import capyeats.menu.service.MenuItemService;
+import capyeats.order.model.OrderStatus;
+import capyeats.order.service.OrderService;
 import capyeats.security.UserData;
 import capyeats.web.dto.KitchenSettingsRequest;
 import capyeats.web.dto.MenuItemRequest;
 import jakarta.validation.Valid;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
@@ -24,16 +22,22 @@ import java.util.UUID;
 public class KitchenOwnerController {
     private final KitchenService kitchenService;
     private final MenuItemService menuItemService;
+    private final OrderService orderService;
 
-    public KitchenOwnerController(KitchenService kitchenService, MenuItemService menuItemService) {
+    public KitchenOwnerController(KitchenService kitchenService, MenuItemService menuItemService, OrderService orderService) {
         this.kitchenService = kitchenService;
         this.menuItemService = menuItemService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/kitchen-overview")
     public String overview(@AuthenticationPrincipal UserData userData, Model model) {
         Kitchen kitchen = kitchenService.getKitchenByUserId(userData.getUserId());
+        model.addAttribute("orders", orderService.getLast3OrdersByKitchenId(kitchen.getId()));
         model.addAttribute("kitchen", kitchen);
+        model.addAttribute("availableDishes", menuItemService.getActiveDishesCount(kitchen.getId()));
+        model.addAttribute("preparingOrders", orderService.getPreparingOrdersCountByKitchenId(kitchen.getId()));
+        model.addAttribute("newOrders", orderService.getNewOrdersCountByKitchenId(kitchen.getId()));
         return  "kitchen-overview";
     }
 
@@ -102,7 +106,15 @@ public class KitchenOwnerController {
     public String orders(@AuthenticationPrincipal UserData userData, Model model) {
         Kitchen kitchen = kitchenService.getKitchenByUserId(userData.getUserId());
         model.addAttribute("kitchen", kitchen);
+        model.addAttribute("orders", orderService.getOrdersByKitchenId(kitchen.getId()));
         return "kitchen-orders";
+    }
+
+    @PostMapping("/kitchen-orders/{orderId}/status")
+    public String changeOrderStatus(@PathVariable UUID orderId, @RequestParam("status") OrderStatus status,
+                                    @AuthenticationPrincipal UserData userData) {
+        orderService.changeOrderStatus(userData.getUserId(), orderId, status);
+        return "redirect:/kitchen-orders";
     }
 
     @GetMapping("/kitchen-profile")

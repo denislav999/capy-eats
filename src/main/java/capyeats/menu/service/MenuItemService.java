@@ -65,4 +65,8 @@ public class MenuItemService {
 
         menuItemRepository.delete(item);
     }
+
+    public int getActiveDishesCount(UUID kitchenId) {
+        return menuItemRepository.countAllByIsAvailableTrueAndKitchen_Id(kitchenId);
+    }
 }

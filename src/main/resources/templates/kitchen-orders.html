@@ -12,104 +12,62 @@
     <div th:replace="~{fragments/fragments :: kitchen-header('orders')}"> </div>
     <main id="workspace" class="owner-shell" tabindex="-1">
         <header class="page-heading">
-            <div><p class="eyebrow">Sofia Bowls</p><h1>Orders</h1></div>
+            <div><p class="eyebrow" th:text="|${kitchen.name}|"></p><h1>Orders</h1></div>
         </header>
         <p class="note ticket-note">Sample tickets. Status changes apply only to this page.</p>
         <div class="ticket-grid">
-            <article id="order-1043" class="paper order-ticket" aria-labelledby="ticket-1043">
+            <article th:each="order : ${orders}" th:with="status=${order.orderStatus.name()}"
+                     class="paper order-ticket" th:attr="aria-labelledby=|ticket-${order.id}|">
                 <header class="ticket-head">
                     <div>
-                        <h2 id="ticket-1043">Order #1043</h2>
-                        <p>Received at <time datetime="12:12">12:12</time></p>
+                        <h2 th:id="|ticket-${order.id}|"
+                            th:text="|Order #${#strings.substring(order.id.toString(), 0, 8)}|">
+                        </h2>
+                        <p>
+                            Received at
+                            <time th:attr="datetime=${order.createdAt.toString()}"
+                                  th:text="${#temporals.format(order.createdAt, 'HH:mm')}">
+                            </time>
+                        </p>
                     </div>
-                    <label class="ticket-state">
-                        <span>Status<span class="ticket-sr"> of order #1043</span></span>
-                        <select>
-                            <option selected>New</option>
-                            <option>Preparing</option>
-                            <option>Completed</option>
-                        </select>
-                    </label>
+
+                    <span class="badge"
+                          th:classappend="${status == 'CREATED' ? 'fresh' : (status == 'PREPARING' ? 'progress' : (status == 'DELIVERED' ? 'available' : 'muted'))}"
+                          th:text="${status == 'CREATED' ? 'New' : #strings.capitalize(#strings.toLowerCase(status))}"></span>
                 </header>
                 <details open>
                     <summary>
-                        <span>2 items</span>
-                        <strong>€15.50</strong>
+                        <span>Order items</span>
+                        <strong th:text="|€${#numbers.formatDecimal(order.totalPrice, 1, 2)}|"></strong>
                     </summary>
+
                     <ul class="ticket-items">
-                        <li><span>1 × Sesame chicken bowl</span><span>€8.50</span></li>
-                        <li><span>1 × Green falafel bowl</span><span>€7.00</span></li>
+                        <li th:each="item : ${order.orderItems}">
+                            <span th:text="|${item.quantity} × ${item.name}|"></span>
+                            <span th:text="|€${#numbers.formatDecimal(item.totalPrice, 1, 2)}|"></span>
+                        </li>
+                        <li th:if="${order.deliveryFee != null and order.deliveryFee.signum() > 0}">
+                            <span>Delivery fee</span>
+                            <span th:text="|€${#numbers.formatDecimal(order.deliveryFee, 1, 2)}|"></span>
+                        </li>
                     </ul>
                 </details>
-            </article>
-            <article id="order-1042" class="paper order-ticket" aria-labelledby="ticket-1042">
-                <header class="ticket-head">
-                    <div>
-                        <h2 id="ticket-1042">Order #1042</h2>
-                        <p>Received at <time datetime="12:09">12:09</time></p>
-                    </div>
+                <form class="ticket-status-form" th:if="${status == 'CREATED' or status == 'PREPARING'}"
+                      th:action="@{/kitchen-orders/{orderId}/status(orderId=${order.id})}"
+                      method="post">
                     <label class="ticket-state">
-                        <span>Status<span class="ticket-sr"> of order #1042</span></span>
-                        <select>
-                            <option selected>New</option>
-                            <option>Preparing</option>
-                            <option>Completed</option>
+                        <span>Change status</span>
+                        <select name="status" required>
+                            <option value="" selected disabled>Choose a status</option>
+                            <option th:if="${status == 'CREATED'}" value="PREPARING">Preparing</option>
+                            <option th:if="${status == 'PREPARING'}" value="DELIVERED">Delivered · cash collected</option>
+                            <option th:if="${status == 'CREATED'}" value="CANCELED">Canceled</option>
                         </select>
                     </label>
-                </header>
-                <details>
-                    <summary>
-                        <span>1 item</span>
-                        <strong>€7.00</strong>
-                    </summary>
-                    <ul class="ticket-items">
-                        <li><span>1 × Green falafel bowl</span><span>€7.00</span></li>
-                    </ul>
-                </details>
+                    <button class="dark-button" type="submit">Save status</button>
+                </form>
             </article>
-            <article id="order-1041" class="paper order-ticket" aria-labelledby="ticket-1041">
-                <header class="ticket-head">
-                    <div>
-                        <h2 id="ticket-1041">Order #1041</h2>
-                        <p>Received at <time datetime="12:04">12:04</time></p>
-                    </div>
-                    <label class="ticket-state">
-                        <span>Status<span class="ticket-sr"> of order #1041</span></span>
-                        <select>
-                            <option>New</option>
-                            <option selected>Preparing</option>
-                            <option>Completed</option>
-                        </select>
-                    </label>
-                </header>
-                <details>
-                    <summary>
-                        <span>2 items</span>
-                        <strong>€17.00</strong>
-                    </summary>
-                    <ul class="ticket-items">
-                        <li><span>2 × Sesame chicken bowl</span><span>€17.00</span></li>
-                    </ul>
-                </details>
-            </article>
-            <article id="order-1040" class="paper order-ticket" aria-labelledby="ticket-1040">
-                <header class="ticket-head">
-                    <div>
-                        <h2 id="ticket-1040">Order #1040</h2>
-                        <p>Received at <time datetime="11:50">11:50</time></p>
-                    </div>
-                    <span class="badge muted">Completed</span>
-                </header>
-                <details>
-                    <summary>
-                        <span>1 item</span>
-                        <strong>€7.00</strong>
-                    </summary>
-                    <ul class="ticket-items">
-                        <li><span>1 × Green falafel bowl</span><span>€7.00</span></li>
-                    </ul>
-                </details>
-            </article>
+
         </div>
     </main>
     <footer class="owner-shell preview-note">Owner preview · Sample kitchen data</footer>

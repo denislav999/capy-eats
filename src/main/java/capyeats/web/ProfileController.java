@@ -4,11 +4,17 @@ import capyeats.address.service.AddressService;
 import capyeats.order.service.OrderService;
 import capyeats.review.service.ReviewService;
 import capyeats.security.UserData;
+import capyeats.user.model.User;
+import capyeats.user.service.UserService;
 import capyeats.web.dto.AddressRequest;
-import jakarta.servlet.http.HttpSession;
+import capyeats.web.dto.ProfileUpdateRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,21 +29,62 @@ public class ProfileController {
     private final OrderService orderService;
     private final ReviewService reviewService;
     private final AddressService addressService;
+    private final UserService userService;
 
     @Autowired
-    public ProfileController(OrderService orderService, ReviewService reviewService, AddressService addressService) {
+    public ProfileController(OrderService orderService, ReviewService reviewService, AddressService addressService, UserService userService) {
         this.orderService = orderService;
         this.reviewService = reviewService;
         this.addressService = addressService;
+        this.userService = userService;
     }
 
     @GetMapping
     public String profile(@AuthenticationPrincipal UserData userData, Model model) {
-        model.addAttribute("activePage", "profile");
-        model.addAttribute("totalReviews", reviewService.getReviewsByUser(userData.getUserId()).size());
-        model.addAttribute("totalOrders", orderService.getAllOrders(userData.getUserId()));
-        model.addAttribute("totalSpend", orderService.getTotalPrice(userData.getUserId()));
+        User user = userService.getUserById(userData.getUserId());
+        ProfileUpdateRequest request = new ProfileUpdateRequest();
+        request.setFullName(user.getFullName());
+        request.setPhoneNumber(user.getPhoneNumber());
+        request.setUsername(user.getUsername());
+        request.setEmail(user.getEmail());
+
+        model.addAttribute("profileUpdateRequest", request);
+        addProfileStats(userData.getUserId(), model);
         return "profile";
+    }
+
+    private void addProfileStats(UUID userId, Model model) {
+        model.addAttribute("activePage", "profile");
+        model.addAttribute("totalReviews", reviewService.getReviewsByUser(userId).size());
+        model.addAttribute("totalOrders", orderService.getAllOrders(userId));
+        model.addAttribute("totalSpend", orderService.getTotalPrice(userId));
+    }
+
+    @PostMapping
+    public String profile(@AuthenticationPrincipal UserData userData,
+                          @Valid @ModelAttribute("profileUpdateRequest") ProfileUpdateRequest request,
+                          BindingResult bindingResult, Model model,
+                          HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+        UUID userId = userData.getUserId();
+        if (!bindingResult.hasFieldErrors("email") && !userService.isEmailAvailable(request.getEmail(), userId)) {
+            bindingResult.rejectValue("email", "duplicate", "Email already in use");
+        }
+        if (!bindingResult.hasFieldErrors("username") && !userService.isUsernameAvailable(request.getUsername(), userId)) {
+            bindingResult.rejectValue("username", "duplicate", "Username already in use");
+        }
+        if (bindingResult.hasErrors()) {
+            addProfileStats(userId, model);
+            model.addAttribute("profileEditing", true);
+            return "profile";
+        }
+
+        userService.updateProfile(userId, request);
+        if (!userData.getUsername().equals(request.getUsername())) {
+            new SecurityContextLogoutHandler().logout(servletRequest, servletResponse,
+                    SecurityContextHolder.getContext().getAuthentication());
+            return "redirect:/login";
+        }
+        return "redirect:/profile";
     }
 
     @GetMapping("/addresses")
@@ -127,9 +174,8 @@ public class ProfileController {
         return "orders";
     }
     @GetMapping("/payments")
-    public String payments(Model model) {
-        model.addAttribute("activePage", "payments");
-        return "payment";
+    public String payments() {
+        return "redirect:/profile";
     }
     @GetMapping("/settings")
     public String settings(Model model) {

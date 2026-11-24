@@ -8,16 +8,16 @@
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <link rel="stylesheet" th:href="@{/css/customer-shop.css}">
 </head>
-<body>
+<body class="shop-browse">
 <header th:replace="~{fragments/fragments :: customer-header(true)}"></header>
 
-<main class="container shop-page">
-    <a class="shop-back" th:href="@{/home}">← All kitchens</a>
+<main class="container shop-page shop-cart">
+    <a class="shop-back" th:href="@{/home}">All kitchens</a>
     <h1>Your cart</h1>
 
     <p class="shop-message shop-message-error" th:if="${cartError}" th:text="${cartError}" role="alert"></p>
     <p class="shop-empty" th:if="${#lists.isEmpty(cartItems)}">Your cart is empty.</p>
-    <div class="shop-section" th:unless="${#lists.isEmpty(cartItems)}">
+    <div class="shop-section shop-cart-grid" th:unless="${#lists.isEmpty(cartItems)}">
         <ul class="shop-items" aria-label="Cart items">
             <li class="shop-item" th:each="item : ${cartItems}">
                 <div>
@@ -32,11 +32,14 @@
                 </div>
             </li>
         </ul>
-        <dl class="shop-total">
-            <dt>Subtotal</dt>
-            <dd th:text="|€${#numbers.formatDecimal(totalPrice, 1, 2)}|"></dd>
-        </dl>
-        <a class="btn shop-add shop-checkout-action" th:href="@{/checkout}">Checkout</a>
+        <aside class="shop-cart-summary" aria-labelledby="cart-summary">
+            <h2 id="cart-summary">Order summary</h2>
+            <dl class="shop-total">
+                <dt>Subtotal</dt>
+                <dd th:text="|€${#numbers.formatDecimal(totalPrice, 1, 2)}|"></dd>
+            </dl>
+            <a class="btn shop-add shop-checkout-action" th:href="@{/checkout}">Checkout</a>
+        </aside>
     </div>
 </main>
 </body>

@@ -37,7 +37,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div th:if="${order.orderStatus.name() == 'COMPLETED'}" class="order-status delivered">Completed</div>
+                            <div th:if="${order.orderStatus.name() == 'DELIVERED'}" class="order-status delivered">Delivered</div>
                             <div th:if="${order.orderStatus.name() == 'CANCELED'}" class="order-status cancelled">Canceled</div>
                             <div th:if="${order.orderStatus.name() == 'PREPARING'}" class="order-status delivered">Preparing</div>
                             <div th:if="${order.orderStatus.name() == 'CREATED'}" class="order-status delivered">Order placed</div>
