@@ -50,6 +50,7 @@ h3 { font-size: 1.02rem; }
 .field { display: grid; gap: 5px; font-size: .9rem; font-weight: 600; }
 .field input, .field select, .field textarea { padding: 9px 11px; width: 100%; border: 1px solid #bcafa4; border-radius: 7px; background: white; color: var(--dark); font-weight: 400; }
 .note, .preview-note { color: var(--muted); font-size: .85rem; }
+.note.field-error { color: #a12620; }
 .preview-note { padding-block: 22px; font-size: .75rem; }
 
 .overview-grid, .profile-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr); align-items: start; gap: clamp(16px, 2.2vw, 32px); }
@@ -198,11 +199,13 @@ h3 { font-size: 1.02rem; }
     border-radius: 8px;
     display: grid;
     grid-template-columns: minmax(0, 1.6fr) minmax(0, .9fr) minmax(0, 1fr);
-    gap: 12px;
+    gap: 18px 12px;
     background: var(--warm);
 }
 .dish-fields legend { padding: 0 5px; font-size: .83rem; font-weight: 650; }
 .dish-fields .field, .dish-fields input, .dish-fields select { min-width: 0; width: 100%; }
+.dish-fields .field { align-content: start; }
+.dish-fields .field-error { margin-top: 2px; overflow-wrap: anywhere; }
 .new-dish > summary {
     display: flex;
     justify-content: space-between;

@@ -27,22 +27,22 @@
                     <div class="field">
                         <label for="setting-name">Kitchen name</label>
                         <input id="setting-name" type="text" th:field="*{name}" required maxlength="100">
-                        <p class="note" role="alert" th:errors="*{name}"></p>
+                        <p class="note field-error" role="alert" th:errors="*{name}"></p>
                     </div>
                     <div class="field">
                         <label for="setting-delivery">Delivery time (minutes)</label>
                         <input id="setting-delivery" type="number" th:field="*{deliveryTime}" min="5" max="120" step="1">
-                        <p class="note" role="alert" th:errors="*{deliveryTime}"></p>
+                        <p class="note field-error" role="alert" th:errors="*{deliveryTime}"></p>
                     </div>
                     <div class="field">
                         <label for="setting-delivery-fee">Delivery fee (€)</label>
                         <input id="setting-delivery-fee" type="number" th:field="*{deliveryFee}" min="0" max="9999.99" step="0.01">
-                        <p class="note" role="alert" th:errors="*{deliveryFee}"></p>
+                        <p class="note field-error" role="alert" th:errors="*{deliveryFee}"></p>
                     </div>
                     <div class="field settings-description">
                         <label for="setting-description">Kitchen description</label>
                         <textarea id="setting-description" th:field="*{description}" rows="3" maxlength="150"></textarea>
-                        <p class="note" role="alert" th:errors="*{description}"></p>
+                        <p class="note field-error" role="alert" th:errors="*{description}"></p>
                     </div>
                 </div>
             </fieldset>
@@ -53,7 +53,7 @@
                     <label><input type="radio" th:field="*{open}" value="true"> Accept orders</label>
                     <label><input type="radio" th:field="*{open}" value="false"> Pause orders</label>
                 </div>
-                <p class="note" role="alert" th:errors="*{open}"></p>
+                <p class="note field-error" role="alert" th:errors="*{open}"></p>
             </fieldset>
 
             <div class="settings-footer">

@@ -41,28 +41,28 @@
                         <span class="dish-caret" aria-hidden="true"></span>
                     </summary>
 
-                    <div th:if="${editing}" th:object="${editMenuItemRequest}" role="alert">
-                        <ul>
-                            <li th:each="error : ${#fields.allErrors()}" th:text="${error}"></li>
-                        </ul>
-                    </div>
-
-                    <form th:action="@{/kitchen-menu/{id}(id=${menuItem.id})}" method="post">
+                    <form th:action="@{/kitchen-menu/{id}(id=${menuItem.id})}" method="post" novalidate>
                         <fieldset class="dish-fields">
                             <legend th:text="|Edit ${menuItem.name}|"></legend>
                             <label class="field">Dish name
                                 <input type="text" name="name" maxlength="30" required
                                        th:value="${editing ? editMenuItemRequest.name : menuItem.name}">
+                                <span class="note field-error" role="alert" th:if="${editing}"
+                                      th:errors="${editMenuItemRequest.name}"></span>
                             </label>
                             <label class="field">Price (€)
                                 <input type="number" name="price" min="0.01" max="9999.99" step="0.01" required
                                        th:value="${editing ? editMenuItemRequest.price : menuItem.price}">
+                                <span class="note field-error" role="alert" th:if="${editing}"
+                                      th:errors="${editMenuItemRequest.price}"></span>
                             </label>
                             <label class="field">Availability
                                 <select name="available" th:with="available=${editing ? editMenuItemRequest.available : menuItem.available}">
                                     <option value="true" th:selected="${available}">Available</option>
                                     <option value="false" th:selected="${!available}">Hidden</option>
                                 </select>
+                                <span class="note field-error" role="alert" th:if="${editing}"
+                                      th:errors="${editMenuItemRequest.available}"></span>
                             </label>
                             <button class="dark-button" type="submit">Save changes</button>
                         </fieldset>
@@ -76,26 +76,27 @@
                 <details class="dish new-dish" open>
                     <summary>Add a dish <span class="dish-caret" aria-hidden="true"></span></summary>
 
-                    <form th:action="@{/kitchen-menu}" th:object="${menuItemRequest}" th:method="post">
+                    <form th:action="@{/kitchen-menu}" th:object="${menuItemRequest}" th:method="post" novalidate>
                         <fieldset class="dish-fields">
                             <legend>New dish</legend>
 
                             <label class="field">Dish name
                                 <input type="text" th:field="*{name}" maxlength="30" required>
+                                <span class="note field-error" role="alert" th:errors="*{name}"></span>
                             </label>
-                            <p th:errors="*{name}"></p>
 
                             <label class="field">Price (€)
                                 <input type="number" th:field="*{price}"
                                        min="0.01" max="9999.99" step="0.01" required>
+                                <span class="note field-error" role="alert" th:errors="*{price}"></span>
                             </label>
-                            <p th:errors="*{price}"></p>
 
                             <label class="field">Availability
                                 <select th:field="*{available}">
                                     <option value="true">Available</option>
                                     <option value="false">Hidden</option>
                                 </select>
+                                <span class="note field-error" role="alert" th:errors="*{available}"></span>
                             </label>
 
                             <button type="submit">Save dish</button>

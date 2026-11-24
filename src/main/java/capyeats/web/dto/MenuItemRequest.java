@@ -17,12 +17,12 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuItemRequest {
-    @NotBlank
-    @Size(max = 30)
+    @NotBlank(message = "Name required.")
+    @Size(max = 30, message = "Max 30 characters.")
     private String name;
-    @NotNull
-    @DecimalMin("0.01")
-    @Digits(integer = 4, fraction = 2)
+    @NotNull(message = "Price required.")
+    @DecimalMin(value = "0.01", message = "Min €0.01.")
+    @Digits(integer = 4, fraction = 2, message = "Max €9,999.99, 2 decimals.")
     private BigDecimal price;
     private boolean available;
 
